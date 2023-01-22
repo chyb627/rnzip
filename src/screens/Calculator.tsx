@@ -1,7 +1,7 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, { useState } from 'react';
 import { SafeAreaView, Text, TouchableOpacity, View } from 'react-native';
-// import styled from 'styled-components';
+import styled from 'styled-components/native';
 
 const COLOR = {
   RESULT: '#4e4c51',
@@ -42,10 +42,16 @@ const Button: React.FC<{ text: string; onPress: () => void; flex: number; type: 
   );
 };
 
-// const ButtonContainer = styled.View`
-//   flex-direction: 'row';
-//   width: 100%;
-// `;
+const ButtonContainer = styled.View`
+  flex-direction: row;
+  width: 100%;
+`;
+const InputContainer = styled.View`
+  background-color: ${COLOR.RESULT};
+  min-height: 50px;
+  justify-content: center;
+  align-items: flex-end;
+`;
 
 export const Calculator = () => {
   const [input, setInput] = useState(0);
@@ -57,44 +63,47 @@ export const Calculator = () => {
   return (
     <SafeAreaView
       style={{ flex: 1, backgroundColor: '#fff', alignItems: 'center', justifyContent: 'center' }}>
-      <View style={{ flex: 1, width: 250 }}>
+      <View style={{ flex: 1, width: 250, justifyContent: 'center' }}>
         {/* 결과 */}
+        <InputContainer>
+          <Text style={{ color: 'white', fontSize: 35 }}>{input}</Text>
+        </InputContainer>
 
         {/* [AC ~ /] */}
-        <View style={{ flexDirection: 'row', width: '100%' }}>
+        <ButtonContainer>
           <Button type="reset" text="AC" onPress={() => null} flex={3} />
           <Button type="operator" text="/" onPress={() => null} flex={1} />
-        </View>
+        </ButtonContainer>
 
         {/* [7 ~ x] */}
-        {/* <ButtonContainer>
+        <ButtonContainer>
           <Button type="num" text="7" onPress={() => null} flex={1} />
           <Button type="num" text="8" onPress={() => null} flex={1} />
           <Button type="num" text="9" onPress={() => null} flex={1} />
           <Button type="operator" text="X" onPress={() => null} flex={1} />
-        </ButtonContainer> */}
+        </ButtonContainer>
 
         {/* [4 ~ -] */}
-        {/* <ButtonContainer>
+        <ButtonContainer>
           <Button type="num" text="4" onPress={() => null} flex={1} />
           <Button type="num" text="5" onPress={() => null} flex={1} />
           <Button type="num" text="6" onPress={() => null} flex={1} />
           <Button type="operator" text="-" onPress={() => null} flex={1} />
-        </ButtonContainer> */}
+        </ButtonContainer>
 
         {/* [1 ~ +] */}
-        {/* <ButtonContainer>
+        <ButtonContainer>
           <Button type="num" text="1" onPress={() => null} flex={1} />
           <Button type="num" text="2" onPress={() => null} flex={1} />
           <Button type="num" text="3" onPress={() => null} flex={1} />
           <Button type="operator" text="+" onPress={() => null} flex={1} />
-        </ButtonContainer> */}
+        </ButtonContainer>
 
         {/* [0 ~ =] */}
-        {/* <ButtonContainer>
+        <ButtonContainer>
           <Button type="num" text="0" onPress={() => null} flex={3} />
           <Button type="operator" text="=" onPress={() => null} flex={1} />
-        </ButtonContainer> */}
+        </ButtonContainer>
       </View>
     </SafeAreaView>
   );
