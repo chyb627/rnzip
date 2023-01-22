@@ -95,7 +95,7 @@ const rnzip = () => (
         key={name}
         name={name}
         getComponent={() => SCREENS[name].screen}
-        options={{title: SCREENS[name].title || name}}
+        options={{title: SCREENS[name].title || name, headerShown: false}}
       />
     ))}
   </Stack.Navigator>
