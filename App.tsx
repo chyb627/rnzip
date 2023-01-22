@@ -9,13 +9,14 @@ import {
   StyleSheet,
   UIManager,
 } from 'react-native';
-import {Kakaotalk} from './src/screens/Kakaotalk';
+import { Kakaotalk } from './src/screens/Kakaotalk';
 import {
   createNativeStackNavigator,
   NativeStackNavigationProp,
 } from '@react-navigation/native-stack';
-import {NavigationContainer} from '@react-navigation/native';
-import {RectButton} from 'react-native-gesture-handler';
+import { NavigationContainer } from '@react-navigation/native';
+import { RectButton } from 'react-native-gesture-handler';
+import { Calculator } from './src/screens/Calculator';
 
 LogBox.ignoreLogs(['Calling `getNode()`']);
 
@@ -25,35 +26,39 @@ if (Platform.OS === 'android') {
   }
 }
 
-type Screens = Record<string, {screen: React.ComponentType; title?: string}>;
+type Screens = Record<string, { screen: React.ComponentType; title?: string }>;
 
 const SCREENS: Screens = {
   KaKaoTalk: {
     screen: Kakaotalk,
     title: 'Kakao Talk',
   },
+  Calculator: {
+    screen: Calculator,
+    title: 'Calculator',
+  },
 };
 
-type RootStackParams = {Home: undefined} & {[key: string]: undefined};
+type RootStackParams = { Home: undefined } & { [key: string]: undefined };
 type MainScreenProps = {
   navigation: NativeStackNavigationProp<RootStackParams, 'Home'>;
 };
 
-function MainScreen({navigation}: MainScreenProps) {
-  const data = Object.keys(SCREENS).map(key => ({key}));
+function MainScreen({ navigation }: MainScreenProps) {
+  const data = Object.keys(SCREENS).map((key) => ({ key }));
   return (
     <FlatList
       style={styles.list}
       data={data}
       ItemSeparatorComponent={ItemSeparator}
-      renderItem={props => (
+      renderItem={(props) => (
         <MainScreenItem
           {...props}
           screens={SCREENS}
-          onPressItem={({key}) => navigation.navigate(key)}
+          onPressItem={({ key }) => navigation.navigate(key)}
         />
       )}
-      renderScrollComponent={props => <ScrollView {...props} />}
+      renderScrollComponent={(props) => <ScrollView {...props} />}
     />
   );
 }
@@ -62,10 +67,10 @@ export function ItemSeparator(): React.ReactElement {
   return <View style={styles.separator} />;
 }
 
-type Item = {key: string};
+type Item = { key: string };
 type MainScreenItemProps = {
   item: Item;
-  onPressItem: ({key}: Item) => void;
+  onPressItem: ({ key }: Item) => void;
   screens: Screens;
 };
 export function MainScreenItem({
@@ -73,7 +78,7 @@ export function MainScreenItem({
   onPressItem,
   screens,
 }: MainScreenItemProps): React.ReactElement {
-  const {key} = item;
+  const { key } = item;
   return (
     <RectButton style={styles.button} onPress={() => onPressItem(item)}>
       <Text style={styles.buttonText}>{screens[key].title || key}</Text>
@@ -87,15 +92,15 @@ const rnzip = () => (
   <Stack.Navigator>
     <Stack.Screen
       name="Home"
-      options={{title: '🎬 Youngbin RN Examples'}}
-      children={props => <MainScreen {...props} />}
+      options={{ title: '🎬 Youngbin RN Examples' }}
+      children={(props) => <MainScreen {...props} />}
     />
-    {Object.keys(SCREENS).map(name => (
+    {Object.keys(SCREENS).map((name) => (
       <Stack.Screen
         key={name}
         name={name}
         getComponent={() => SCREENS[name].screen}
-        options={{title: SCREENS[name].title || name, headerShown: false}}
+        options={{ title: SCREENS[name].title || name, headerShown: false }}
       />
     ))}
   </Stack.Navigator>
