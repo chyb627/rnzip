@@ -1,13 +1,13 @@
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
-import {StyleSheet, Text, View} from 'react-native';
-import {Icon} from '../UI/Icons';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Icon } from '../UI/Icons';
 
-const IconButton: React.FC<{name: string}> = props => {
+const IconButton: React.FC<{ name: string }> = (props) => {
   return (
-    <View style={{paddingHorizontal: 6}}>
+    <TouchableOpacity hitSlop={{ top: 15, bottom: 15 }} style={{ paddingHorizontal: 6 }}>
       <Icon name={props.name} size={24} color="#000" />
-    </View>
+    </TouchableOpacity>
   );
 };
 
@@ -16,7 +16,7 @@ export const KakaoHeader = () => {
     <View style={styles.headerContainer}>
       <Text style={styles.title}>친구</Text>
 
-      <View style={{flexDirection: 'row'}}>
+      <View style={{ flexDirection: 'row' }}>
         <IconButton name="search" />
         <IconButton name="ios-person-add-outline" />
         <IconButton name="md-musical-notes-outline" />
