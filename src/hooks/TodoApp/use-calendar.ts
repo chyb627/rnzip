@@ -1,9 +1,7 @@
 import dayjs, { Dayjs } from 'dayjs';
-import React, { useState } from 'react';
+import { useState } from 'react';
 
-export const useCalendar: React.FC<{
-  now: Dayjs;
-}> = (now) => {
+export const useCalendar = (now: Dayjs) => {
   const [selectedDate, setSelectedDate] = useState(now);
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
 

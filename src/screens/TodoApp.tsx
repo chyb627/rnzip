@@ -17,7 +17,7 @@ import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import { Calendar } from '../components/TodoApp/Calendar';
 
 import { useCalendar } from '../hooks/TodoApp/use-calendar';
-import { useTodoList } from '../hooks/TodoApp/use-todo-list';
+import { TodoList, useTodoList } from '../hooks/TodoApp/use-todo-list';
 import {
   getCalendarColumns,
   ITEM_WIDTH,
@@ -54,7 +54,7 @@ export const TodoApp = () => {
   } = useTodoList(selectedDate);
 
   const columns = getCalendarColumns(selectedDate);
-  const flatListRef = useRef(null);
+  const flatListRef = useRef<FlatList>(null);
 
   const onPressLeftArrow = subtract1Month;
   const onPressHeaderDate = showDatePicker;
@@ -89,7 +89,7 @@ export const TodoApp = () => {
     </View>
   );
 
-  const renderItem = ({ item: todo }) => {
+  const renderItem: React.FC<{ item: TodoList }> = ({ item: todo }) => {
     const isSuccess = todo.isSuccess;
     const onPress = () => toggleTodo(todo.id);
     const onLongPress = () => {
@@ -141,11 +141,11 @@ export const TodoApp = () => {
     resetInput();
   };
 
-  // const onFocus = () => {
-  //   setTimeout(() => {
-  //     flatListRef.current?.scrollToEnd({ animated: true });
-  //   }, 300);
-  // };
+  const onFocus = () => {
+    setTimeout(() => {
+      flatListRef.current?.scrollToEnd({ animated: true });
+    }, 300);
+  };
 
   return (
     <Pressable style={styles.container} onPress={Keyboard.dismiss}>
@@ -182,7 +182,7 @@ export const TodoApp = () => {
             placeholder={`${dayjs(selectedDate).format('MM.D')}에 추가할 투두`}
             onPressAdd={onPressAdd}
             onSubmitEditing={onSubmitEditing}
-            // onFocus={onFocus}
+            onFocus={onFocus}
           />
         </>
       </KeyboardAvoidingView>

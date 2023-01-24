@@ -1,7 +1,8 @@
 /* eslint-disable react-native/no-inline-styles */
 import dayjs, { Dayjs } from 'dayjs';
-import React from 'react';
+import React, { Dispatch, SetStateAction } from 'react';
 import { FlatList, Text, TouchableOpacity, View } from 'react-native';
+import { TodoList } from '../../hooks/TodoApp/use-todo-list';
 import { getDayColor, getDayText } from '../../util/util';
 import { Icon } from '../UI/Icons';
 
@@ -48,7 +49,15 @@ const ArrowButton: React.FC<{
   );
 };
 
-export const Calendar = ({
+export const Calendar: React.FC<{
+  columns: Dayjs[];
+  selectedDate: Dayjs;
+  onPressLeftArrow: () => void;
+  onPressRightArrow: () => void;
+  onPressHeaderDate: () => void;
+  onPressDate: Dispatch<SetStateAction<Dayjs>>;
+  todoList: TodoList[];
+}> = ({
   columns,
   selectedDate,
   onPressLeftArrow,
@@ -57,6 +66,7 @@ export const Calendar = ({
   onPressDate,
   todoList,
 }) => {
+  console.log('onPressLeftArrow::', onPressLeftArrow);
   const ListHeaderComponent = () => {
     const currentDateText = dayjs(selectedDate).format('YYYY.MM.DD');
 
@@ -119,7 +129,7 @@ export const Calendar = ({
         color={color}
         opacity={isCurrentMonth ? 1 : 0.4}
         isSelected={isSelected}
-        hasTodo={hasTodo}
+        hasTodo={!!hasTodo}
       />
     );
   };

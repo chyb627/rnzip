@@ -1,18 +1,24 @@
 /* eslint-disable react-native/no-inline-styles */
 
-import React from 'react';
-import { TextInput, View } from 'react-native';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import React, { Dispatch, SetStateAction } from 'react';
+import { TextInput, View, TouchableOpacity } from 'react-native';
 import { ITEM_WIDTH } from '../../util/util';
 import { Icon } from '../UI/Icons';
 
-export const AddTodoInput: React.FC = ({
+export const AddTodoInput: React.FC<{
+  value: string;
+  onChangeText: Dispatch<SetStateAction<string>>;
+  placeholder: string;
+  onPressAdd: () => void;
+  onSubmitEditing: () => void;
+  onFocus: () => void;
+}> = ({
   value,
   onChangeText,
   placeholder,
   onPressAdd,
   onSubmitEditing,
-  // onFocus,
+  onFocus,
 }) => {
   return (
     <View
@@ -33,7 +39,7 @@ export const AddTodoInput: React.FC = ({
         }}
         onSubmitEditing={onSubmitEditing}
         blurOnSubmit={false}
-        // onFocus={onFocus}
+        onFocus={onFocus}
       />
       <TouchableOpacity onPress={onPressAdd} style={{ padding: 5 }}>
         <Icon name="add" size={20} color="#494949" />

@@ -1,6 +1,13 @@
-import dayjs from 'dayjs';
-import React, { useState, useEffect } from 'react';
+import dayjs, { Dayjs } from 'dayjs';
+import { useState, useEffect } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+
+export type TodoList = {
+  id: number;
+  content: string;
+  date: Dayjs;
+  isSuccess: boolean;
+};
 
 const defaultTodoList = [
   { id: 1, content: '운동하기', date: dayjs(), isSuccess: true },
@@ -17,11 +24,11 @@ const defaultTodoList = [
 
 const TODO_LIST_KEY = 'TODO_LIST_KEY';
 
-export const useTodoList: React.FC = (selectedDate) => {
-  const [todoList, setTodoList] = useState(defaultTodoList);
-  const [input, setInput] = useState('');
+export const useTodoList = (selectedDate: Dayjs) => {
+  const [todoList, setTodoList] = useState<TodoList[]>(defaultTodoList);
+  const [input, setInput] = useState<string>('');
 
-  const saveTodoList = (newTodoList) => {
+  const saveTodoList = (newTodoList: TodoList[]) => {
     setTodoList(newTodoList);
     AsyncStorage.setItem(TODO_LIST_KEY, JSON.stringify(newTodoList));
   };
@@ -42,12 +49,12 @@ export const useTodoList: React.FC = (selectedDate) => {
     saveTodoList(newTodoList);
   };
 
-  const removeTodo = (todoId) => {
+  const removeTodo = (todoId: number) => {
     const newTodoList = todoList.filter((todo) => todo.id !== todoId);
     saveTodoList(newTodoList);
   };
 
-  const toggleTodo = (todoId) => {
+  const toggleTodo = (todoId: number) => {
     const newTodoList = todoList.map((todo) => {
       if (todo.id !== todoId) return todo;
       return {
@@ -60,7 +67,7 @@ export const useTodoList: React.FC = (selectedDate) => {
 
   const resetInput = () => setInput('');
 
-  const filteredTodoList = todoList.filter((todo) => {
+  const filteredTodoList = todoList.filter((todo: TodoList) => {
     const isSameDate = dayjs(todo.date).isSame(selectedDate, 'date');
     return isSameDate;
   });
@@ -68,6 +75,7 @@ export const useTodoList: React.FC = (selectedDate) => {
   useEffect(() => {
     init();
   }, []);
+
   const init = async () => {
     const result = await AsyncStorage.getItem(TODO_LIST_KEY);
     console.log('result', typeof result, result);
