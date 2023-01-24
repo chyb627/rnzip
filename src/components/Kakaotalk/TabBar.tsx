@@ -15,8 +15,17 @@ const TabButton: React.FC<{
   return (
     <TouchableOpacity
       onPress={onPress}
-      style={{ flex: 1, justifyContent: 'center', alignItems: 'center', paddingVertical: 10 }}>
-      <Icon name={isSelected ? activeIconName : inactiveIconName} size={24} color="#000" />
+      style={{
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        paddingVertical: 10,
+      }}>
+      <Icon
+        name={isSelected ? activeIconName : inactiveIconName}
+        size={24}
+        color="#000"
+      />
     </TouchableOpacity>
   );
 };

@@ -9,14 +9,15 @@ import {
   StyleSheet,
   UIManager,
 } from 'react-native';
-import { Kakaotalk } from './src/screens/Kakaotalk';
 import {
   createNativeStackNavigator,
   NativeStackNavigationProp,
 } from '@react-navigation/native-stack';
 import { NavigationContainer } from '@react-navigation/native';
 import { RectButton } from 'react-native-gesture-handler';
+import { Kakaotalk } from './src/screens/Kakaotalk';
 import { Calculator } from './src/screens/Calculator';
+import { TodoApp } from './src/screens/TodoApp';
 
 LogBox.ignoreLogs(['Calling `getNode()`']);
 
@@ -31,11 +32,15 @@ type Screens = Record<string, { screen: React.ComponentType; title?: string }>;
 const SCREENS: Screens = {
   KaKaoTalk: {
     screen: Kakaotalk,
-    title: 'Kakao Talk',
+    title: 'KakaoTalk',
   },
   Calculator: {
     screen: Calculator,
     title: 'Calculator',
+  },
+  TodoApp: {
+    screen: TodoApp,
+    title: 'TodoApp',
   },
 };
 
