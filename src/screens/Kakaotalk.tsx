@@ -1,7 +1,10 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, { useState } from 'react';
 import { FlatList, Platform, StyleSheet, View } from 'react-native';
-import { getBottomSpace, getStatusBarHeight } from 'react-native-iphone-x-helper';
+import {
+  getBottomSpace,
+  getStatusBarHeight,
+} from 'react-native-iphone-x-helper';
 import { KakaoHeader } from '../components/Kakaotalk/KakaoHeader';
 import { Profile } from '../components/Kakaotalk/Profile';
 import { friendProfiles, myProfile } from '../data/Kakaotalk/data';
@@ -26,11 +29,16 @@ export const Kakaotalk = () => {
 
   const ItemSeparatorComponent = () => <Margin height={13} />;
 
-  const renderItem: React.FC<{ item: { uri: string; name: string; introduction: string } }> = ({
-    item,
-  }) => (
+  const renderItem: React.FC<{
+    item: { uri: string; name: string; introduction: string };
+  }> = ({ item }) => (
     <View>
-      <Profile uri={item.uri} name={item.name} introduction={item.introduction} isMe={false} />
+      <Profile
+        uri={item.uri}
+        name={item.name}
+        introduction={item.introduction}
+        isMe={false}
+      />
     </View>
   );
 
@@ -79,7 +87,10 @@ export const Kakaotalk = () => {
         showsVerticalScrollIndicator={false}
       />
 
-      <TabBar selectedTabIdx={selectedTabIdx} setSelectedTabIdx={setSelectedTabIdx} />
+      <TabBar
+        selectedTabIdx={selectedTabIdx}
+        setSelectedTabIdx={setSelectedTabIdx}
+      />
     </View>
   );
 };

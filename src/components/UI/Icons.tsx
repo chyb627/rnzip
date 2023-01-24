@@ -7,4 +7,6 @@ export const Icon: React.FC<{
   name: TypeIconName;
   size: number;
   color: string;
-}> = (props) => <Ionicons name={props.name} size={props.size} color={props.color} />;
+}> = (props) => (
+  <Ionicons name={props.name} size={props.size} color={props.color} />
+);

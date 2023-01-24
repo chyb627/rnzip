@@ -66,7 +66,6 @@ export const Calendar: React.FC<{
   onPressDate,
   todoList,
 }) => {
-  console.log('onPressLeftArrow::', onPressLeftArrow);
   const ListHeaderComponent = () => {
     const currentDateText = dayjs(selectedDate).format('YYYY.MM.DD');
 

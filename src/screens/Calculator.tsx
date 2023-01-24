@@ -57,21 +57,39 @@ const InputContainer = styled.View`
 `;
 
 export const Calculator = () => {
-  const { input, currentOperator, hasInput, onPressNum, onPressOperator, onPressReset } =
-    useCalculator();
+  const {
+    input,
+    currentOperator,
+    hasInput,
+    onPressNum,
+    onPressOperator,
+    onPressReset,
+  } = useCalculator();
 
   return (
     <SafeAreaView
-      style={{ flex: 1, backgroundColor: '#fff', alignItems: 'center', justifyContent: 'center' }}>
+      style={{
+        flex: 1,
+        backgroundColor: '#fff',
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}>
       <View style={{ flex: 1, width: 250, justifyContent: 'center' }}>
         {/* 결과 */}
         <InputContainer>
-          <Text style={{ color: 'white', fontSize: 35, textAlign: 'right' }}>{input}</Text>
+          <Text style={{ color: 'white', fontSize: 35, textAlign: 'right' }}>
+            {input}
+          </Text>
         </InputContainer>
 
         {/* [AC ~ /] */}
         <ButtonContainer>
-          <Button type="reset" text={hasInput ? 'C' : 'AC'} onPress={onPressReset} flex={3} />
+          <Button
+            type="reset"
+            text={hasInput ? 'C' : 'AC'}
+            onPress={onPressReset}
+            flex={3}
+          />
           <Button
             type="operator"
             text="/"
@@ -145,7 +163,12 @@ export const Calculator = () => {
         {/* [0 ~ =] */}
         <ButtonContainer>
           <Button type="num" text="0" onPress={() => onPressNum(0)} flex={3} />
-          <Button type="operator" text="=" onPress={() => onPressOperator('=')} flex={1} />
+          <Button
+            type="operator"
+            text="="
+            onPress={() => onPressOperator('=')}
+            flex={1}
+          />
         </ButtonContainer>
       </View>
     </SafeAreaView>

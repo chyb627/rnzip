@@ -18,6 +18,8 @@ import { RectButton } from 'react-native-gesture-handler';
 import { Kakaotalk } from './src/screens/Kakaotalk';
 import { Calculator } from './src/screens/Calculator';
 import { TodoApp } from './src/screens/TodoApp';
+import { Kakaobus } from './src/screens/Kakaobus';
+import { Translator } from './src/screens/Translator';
 
 LogBox.ignoreLogs(['Calling `getNode()`']);
 
@@ -41,6 +43,14 @@ const SCREENS: Screens = {
   TodoApp: {
     screen: TodoApp,
     title: 'TodoApp',
+  },
+  Kakaobus: {
+    screen: Kakaobus,
+    title: 'Kakaobus',
+  },
+  Translator: {
+    screen: Translator,
+    title: 'Translator',
   },
 };
 
@@ -97,7 +107,7 @@ const rnzip = () => (
   <Stack.Navigator>
     <Stack.Screen
       name="Home"
-      options={{ title: '🎬 Youngbin RN Examples' }}
+      options={{ title: '😎 Youngbin RN Examples' }}
       children={(props) => <MainScreen {...props} />}
     />
     {Object.keys(SCREENS).map((name) => (
