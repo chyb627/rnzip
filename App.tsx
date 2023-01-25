@@ -19,7 +19,7 @@ import { Kakaotalk } from './src/screens/Kakaotalk';
 import { Calculator } from './src/screens/Calculator';
 import { TodoApp } from './src/screens/TodoApp';
 import { Kakaobus } from './src/screens/Kakaobus';
-import { Translator } from './src/screens/Translator';
+import { Translation } from './src/screens/Translation';
 
 LogBox.ignoreLogs(['Calling `getNode()`']);
 
@@ -48,9 +48,9 @@ const SCREENS: Screens = {
     screen: Kakaobus,
     title: 'Kakaobus',
   },
-  Translator: {
-    screen: Translator,
-    title: 'Translator',
+  Translation: {
+    screen: Translation,
+    title: 'Translation',
   },
 };
 
