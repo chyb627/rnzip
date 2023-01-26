@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   FlatList,
   LogBox,
@@ -15,6 +15,8 @@ import {
 } from '@react-navigation/native-stack';
 import { NavigationContainer } from '@react-navigation/native';
 import { RectButton } from 'react-native-gesture-handler';
+import SplashScreen from 'react-native-splash-screen';
+
 import { Kakaotalk } from './src/screens/Kakaotalk';
 import { Calculator } from './src/screens/Calculator';
 import { TodoApp } from './src/screens/TodoApp';
@@ -122,6 +124,12 @@ const rnzip = () => (
 );
 
 function App(): React.ReactElement {
+  useEffect(() => {
+    setTimeout(() => {
+      SplashScreen.hide();
+    }, 2000);
+  }, []);
+
   return <NavigationContainer>{rnzip()}</NavigationContainer>;
 }
 
