@@ -1,5 +1,4 @@
-/* eslint-disable react-native/no-inline-styles */
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { FlatList, Platform, StyleSheet, View } from 'react-native';
 import {
   getBottomSpace,
@@ -22,10 +21,9 @@ export const Kakaotalk = () => {
   const [isOpened, setIsOpend] = useState(true);
   const [selectedTabIdx, setSelectedTabIdx] = useState(0);
 
-  const onPressArrow = () => {
-    // console.log('clicked arrow');
+  const onPressArrow = useCallback(() => {
     setIsOpend(!isOpened);
-  };
+  }, [isOpened]);
 
   const ItemSeparatorComponent = () => <Margin height={13} />;
 
@@ -43,7 +41,7 @@ export const Kakaotalk = () => {
   );
 
   const ListHeaderComponent = () => (
-    <View style={{ backgroundColor: '#fff' }}>
+    <View style={styles.headerContainer}>
       <KakaoHeader />
 
       <Margin height={10} />
@@ -79,7 +77,7 @@ export const Kakaotalk = () => {
         keyExtractor={(_, index) => `kakao-${index}`}
         data={isOpened ? friendProfiles : []}
         stickyHeaderIndices={[0]} // 고정을 할 헤더의 index
-        contentContainerStyle={{ paddingHorizontal: 15 }}
+        contentContainerStyle={styles.contentContainer}
         ItemSeparatorComponent={ItemSeparatorComponent}
         renderItem={renderItem}
         ListHeaderComponent={ListHeaderComponent}
@@ -100,6 +98,11 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
     paddingTop: statusBarHeight,
-    // justifyContent: 'flex-end',
+  },
+  headerContainer: {
+    backgroundColor: '#fff',
+  },
+  contentContainer: {
+    paddingHorizontal: 15,
   },
 });

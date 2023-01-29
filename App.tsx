@@ -125,9 +125,7 @@ const rnzip = () => (
 
 function App(): React.ReactElement {
   useEffect(() => {
-    setTimeout(() => {
-      SplashScreen.hide();
-    }, 2000);
+    SplashScreen.hide();
   }, []);
 
   return <NavigationContainer>{rnzip()}</NavigationContainer>;

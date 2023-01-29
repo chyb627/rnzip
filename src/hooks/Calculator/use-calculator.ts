@@ -1,8 +1,10 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 
 export const useCalculator = () => {
   const [input, setInput] = useState<number>(0);
-  const [currentOperator, setCurrentOperator] = useState<'+' | '-' | '*' | '/' | '=' | null>(null);
+  const [currentOperator, setCurrentOperator] = useState<
+    '+' | '-' | '*' | '/' | '=' | null
+  >(null);
   const [result, setResult] = useState<number>(0);
   const [tempInput, setTempInput] = useState<number>(0);
   const [tempOperator, setTempOperator] = useState<string | null>(null);
@@ -11,53 +13,59 @@ export const useCalculator = () => {
 
   const hasInput = !!input; // input ? true : false;
 
-  const onPressNum = (num: number) => {
-    if (currentOperator && isClickedOperator) {
-      setResult(input);
-      setInput(num);
-      setIsClickedOperator(false);
-    } else {
-      const newInput = Number(`${input}${num}`);
-      setInput(newInput);
-    }
-  };
-
-  const onPressOperator = (operator: '+' | '-' | '*' | '/' | '=') => {
-    if (operator !== '=') {
-      setCurrentOperator(operator);
-      setIsClickedOperator(true);
-      setIsClickedEqual(false);
-    } else {
-      let finalResult = result;
-      const finalInput = isClickedEqual ? tempInput : input;
-      const finalOperator = isClickedEqual ? tempOperator : currentOperator;
-
-      switch (finalOperator) {
-        case '+':
-          finalResult = result + finalInput;
-          break;
-        case '-':
-          finalResult = result - finalInput;
-          break;
-        case '*':
-          finalResult = result * finalInput;
-          break;
-        case '/':
-          finalResult = result / finalInput;
-          break;
-        default:
-          break;
+  const onPressNum = useCallback(
+    (num: number) => {
+      if (currentOperator && isClickedOperator) {
+        setResult(input);
+        setInput(num);
+        setIsClickedOperator(false);
+      } else {
+        const newInput = Number(`${input}${num}`);
+        setInput(newInput);
       }
-      setResult(finalResult);
-      setInput(finalResult);
-      setTempInput(finalInput);
-      setCurrentOperator(null);
-      setTempOperator(finalOperator);
-      setIsClickedEqual(true);
-    }
-  };
+    },
+    [currentOperator, input, isClickedOperator],
+  );
 
-  const onPressReset = () => {
+  const onPressOperator = useCallback(
+    (operator: '+' | '-' | '*' | '/' | '=') => {
+      if (operator !== '=') {
+        setCurrentOperator(operator);
+        setIsClickedOperator(true);
+        setIsClickedEqual(false);
+      } else {
+        let finalResult = result;
+        const finalInput = isClickedEqual ? tempInput : input;
+        const finalOperator = isClickedEqual ? tempOperator : currentOperator;
+
+        switch (finalOperator) {
+          case '+':
+            finalResult = result + finalInput;
+            break;
+          case '-':
+            finalResult = result - finalInput;
+            break;
+          case '*':
+            finalResult = result * finalInput;
+            break;
+          case '/':
+            finalResult = result / finalInput;
+            break;
+          default:
+            break;
+        }
+        setResult(finalResult);
+        setInput(finalResult);
+        setTempInput(finalInput);
+        setCurrentOperator(null);
+        setTempOperator(finalOperator);
+        setIsClickedEqual(true);
+      }
+    },
+    [currentOperator, input, isClickedEqual, result, tempInput, tempOperator],
+  );
+
+  const onPressReset = useCallback(() => {
     if (hasInput) {
       setInput(0);
     } else {
@@ -67,7 +75,7 @@ export const useCalculator = () => {
       setTempInput(0);
       setTempOperator(null);
     }
-  };
+  }, [hasInput]);
 
   return {
     input,

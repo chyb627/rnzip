@@ -1,6 +1,11 @@
-/* eslint-disable react-native/no-inline-styles */
 import React from 'react';
-import { SafeAreaView, Text, TouchableOpacity, View } from 'react-native';
+import {
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import styled from 'styled-components/native';
 import { useCalculator } from '../hooks/Calculator/use-calculator';
 
@@ -27,19 +32,19 @@ const Button: React.FC<{
       ? COLOR.NUM
       : 'transparent';
 
+  const buttonContainer = {
+    flex,
+    backgroundColor,
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: 50,
+    borderWidth: isSelected ? 1 : 0.2,
+    borderColor: '#000',
+  };
+
   return (
-    <TouchableOpacity
-      onPress={onPress}
-      style={{
-        flex,
-        backgroundColor,
-        justifyContent: 'center',
-        alignItems: 'center',
-        height: 50,
-        borderWidth: isSelected ? 1 : 0.2,
-        borderColor: '#000',
-      }}>
-      <Text style={{ color: 'white', fontSize: 25 }}>{text}</Text>
+    <TouchableOpacity onPress={onPress} style={buttonContainer}>
+      <Text style={styles.buttonContainerText}>{text}</Text>
     </TouchableOpacity>
   );
 };
@@ -67,19 +72,11 @@ export const Calculator = () => {
   } = useCalculator();
 
   return (
-    <SafeAreaView
-      style={{
-        flex: 1,
-        backgroundColor: '#fff',
-        alignItems: 'center',
-        justifyContent: 'center',
-      }}>
-      <View style={{ flex: 1, width: 250, justifyContent: 'center' }}>
+    <SafeAreaView style={styles.container}>
+      <View style={styles.contentContainer}>
         {/* 결과 */}
         <InputContainer>
-          <Text style={{ color: 'white', fontSize: 35, textAlign: 'right' }}>
-            {input}
-          </Text>
+          <Text style={styles.inputContainerText}>{input}</Text>
         </InputContainer>
 
         {/* [AC ~ /] */}
@@ -174,3 +171,23 @@ export const Calculator = () => {
     </SafeAreaView>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  contentContainer: {
+    flex: 1,
+    width: 250,
+    justifyContent: 'center',
+  },
+  inputContainerText: {
+    color: 'white',
+    fontSize: 35,
+    textAlign: 'right',
+  },
+  buttonContainerText: { color: 'white', fontSize: 25 },
+});
