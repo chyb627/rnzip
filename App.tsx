@@ -23,6 +23,7 @@ import { TodoApp } from './src/screens/TodoApp';
 import { Kakaobus } from './src/screens/Kakaobus';
 import { Translation } from './src/screens/Translation';
 import { Lotto } from './src/screens/Lotto';
+import { ScrapWeb } from './src/screens/ScrapWeb';
 
 LogBox.ignoreLogs(['Calling `getNode()`']);
 
@@ -58,6 +59,10 @@ const SCREENS: Screens = {
   Lotto: {
     screen: Lotto,
     title: 'Lotto',
+  },
+  ScrapWeb: {
+    screen: ScrapWeb,
+    title: 'ScrapWeb',
   },
 };
 
