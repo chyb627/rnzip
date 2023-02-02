@@ -22,6 +22,7 @@ import { Calculator } from './src/screens/Calculator';
 import { TodoApp } from './src/screens/TodoApp';
 import { Kakaobus } from './src/screens/Kakaobus';
 import { Translation } from './src/screens/Translation';
+import { Lotto } from './src/screens/Lotto';
 
 LogBox.ignoreLogs(['Calling `getNode()`']);
 
@@ -53,6 +54,10 @@ const SCREENS: Screens = {
   Translation: {
     screen: Translation,
     title: 'Translation',
+  },
+  Lotto: {
+    screen: Lotto,
+    title: 'Lotto',
   },
 };
 
