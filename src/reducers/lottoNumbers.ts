@@ -1,4 +1,4 @@
-import dayjs, { Dayjs } from 'dayjs';
+import dayjs from 'dayjs';
 import {
   CreateNewNumbersAction,
   CREATE_NEW_NUMBERS,
@@ -7,7 +7,7 @@ import {
 interface InitialState {
   currentNumber: number[];
   history: {
-    date: Dayjs;
+    date: string;
     numbers: number[];
   }[];
 }
@@ -22,12 +22,14 @@ export const lottoNumberReducers = (
   action: CreateNewNumbersAction,
 ) => {
   if (action.type === CREATE_NEW_NUMBERS) {
+    const date = dayjs(new Date()).format('YYYY.MM.DD hh:mm');
+
     return {
       ...state,
       currentNumber: action.numbers,
       history: state.history.concat([
         {
-          date: dayjs(new Date()),
+          date,
           numbers: action.numbers,
         },
       ]),

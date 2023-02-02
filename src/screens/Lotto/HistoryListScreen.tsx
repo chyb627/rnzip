@@ -1,4 +1,3 @@
-import dayjs from 'dayjs';
 import React from 'react';
 import { FlatList, StyleSheet, View } from 'react-native';
 import { useSelector } from 'react-redux';
@@ -24,9 +23,7 @@ export const HistoryListScreen = () => {
           console.log('item', item);
           return (
             <View style={styles.date}>
-              <Typography fontSize={16}>
-                {dayjs(item.date).format('YYYY.MM.DD')}
-              </Typography>
+              <Typography fontSize={16}>{item.date}</Typography>
 
               <LottoNumberView numbers={item.numbers} />
             </View>
