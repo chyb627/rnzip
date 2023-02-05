@@ -62,3 +62,4 @@ buck-out/
 yarn.lock
 .vscode
 package-lock.json
+.env
