@@ -24,6 +24,7 @@ import { Kakaobus } from './src/screens/Kakaobus';
 import { Translation } from './src/screens/Translation';
 import { Lotto } from './src/screens/Lotto';
 import { ScrapWeb } from './src/screens/ScrapWeb';
+import { NewsScrap } from './src/screens/NewsScrap';
 
 LogBox.ignoreLogs(['Calling `getNode()`']);
 
@@ -63,6 +64,10 @@ const SCREENS: Screens = {
   ScrapWeb: {
     screen: ScrapWeb,
     title: 'ScrapWeb',
+  },
+  NewsScrap: {
+    screen: NewsScrap,
+    title: 'NewsScrap',
   },
 };
 
