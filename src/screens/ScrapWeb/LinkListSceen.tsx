@@ -1,5 +1,6 @@
-import React, { useCallback } from 'react';
-import { FlatList, StyleSheet, View } from 'react-native';
+import dayjs, { Dayjs } from 'dayjs';
+import React, { useCallback, useMemo } from 'react';
+import { FlatList, SectionList, StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useRecoilValue } from 'recoil';
 import { Button } from '../../components/UI/Button';
@@ -33,6 +34,42 @@ export const LinkListSceen = () => {
     navigation.navigate('AddLink');
   }, [navigation]);
 
+  const sectionData: {
+    title: string;
+    data: {
+      title: string;
+      image: string;
+      link: string;
+      createdAt: string;
+    }[];
+  }[] = useMemo(() => {
+    const dateList: any = {};
+
+    const makeDateString = (createdAt: string): string => {
+      const dateItem = new Date(createdAt);
+      return dayjs(dateItem).format('YYYY.MM.DD hh:mm');
+    };
+
+    if (!data.list) return [];
+
+    data.list.forEach((item) => {
+      const keyName = makeDateString(item.createdAt);
+
+      if (!dateList[keyName]) {
+        dateList[keyName] = [item];
+      } else {
+        dateList[keyName].push(item);
+      }
+    });
+
+    return Object.keys(dateList).map((item) => {
+      return {
+        title: item,
+        data: dateList[item],
+      };
+    });
+  }, [data.list]);
+
   return (
     <View style={styles.container}>
       <Header>
@@ -41,9 +78,9 @@ export const LinkListSceen = () => {
         </Header.Group>
       </Header>
 
-      <FlatList
+      <SectionList
         style={{ flex: 1 }}
-        data={data.list}
+        sections={sectionData}
         renderItem={({ item }) => {
           return (
             <Button
@@ -61,6 +98,21 @@ export const LinkListSceen = () => {
                 </Typography>
               </View>
             </Button>
+          );
+        }}
+        renderSectionHeader={({ section }) => {
+          // console.log('section::', section);
+          return (
+            <View
+              style={{
+                paddingHorizontal: 12,
+                paddingVertical: 4,
+                backgroundColor: '#fff',
+              }}>
+              <Typography color="gray" fontSize={12}>
+                {section.title}
+              </Typography>
+            </View>
           );
         }}
       />
