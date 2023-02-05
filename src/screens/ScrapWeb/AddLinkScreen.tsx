@@ -63,6 +63,7 @@ export const AddLinkScreen = () => {
           value={url}
           onChangeText={setUrl}
           placeholder="https://example.com"
+          onSubmitEditing={() => {}}
         />
       </View>
 

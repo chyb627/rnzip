@@ -3,7 +3,9 @@ import { useSetRecoilState } from 'recoil';
 import { atomLinkList } from '../../states/atomLinkList';
 import { getItem } from '../../util/AsyncStorageUtils';
 
-export const RecoilCustomPersist = (props) => {
+export const RecoilCustomPersist: React.FC<{
+  children: React.ReactNode;
+}> = (props) => {
   const [isLoaded, SetIsLoaded] = useState(false);
   const setList = useSetRecoilState(atomLinkList);
 

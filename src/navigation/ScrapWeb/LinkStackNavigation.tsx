@@ -9,7 +9,14 @@ import { LinkListSceen } from '../../screens/ScrapWeb/LinkListSceen';
 
 export type TypeStackScreenParams = {
   LinkList: undefined;
-  LinkDetail: undefined;
+  LinkDetail: {
+    item: {
+      createdAt: string;
+      image: string;
+      link: string;
+      title: string;
+    };
+  };
 };
 
 const Stack = createNativeStackNavigator<TypeStackScreenParams>();

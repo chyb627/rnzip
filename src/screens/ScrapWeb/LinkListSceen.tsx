@@ -18,7 +18,12 @@ export const LinkListSceen = () => {
   const data = useRecoilValue(atomLinkList);
 
   const onPressListItem = useCallback(
-    (item) => {
+    (item: {
+      title: string;
+      image: string;
+      link: string;
+      createdAt: string;
+    }) => {
       stackNavigation.navigate('LinkDetail', { item });
     },
     [stackNavigation],
