@@ -1,10 +1,15 @@
 import React, { useCallback } from 'react';
 import { StyleSheet, View } from 'react-native';
+import WebView from 'react-native-webview';
 import { Header } from '../../components/UI/Header/Header';
 import { Spacer } from '../../components/UI/Spacer';
-import { useRootNavigation } from '../../navigation/ScrapWeb/RootNavigation';
+import {
+  useRootNavigation,
+  useRootRoute,
+} from '../../navigation/ScrapWeb/RootNavigation';
 
 export const LinkDetailScreen = () => {
+  const routes = useRootRoute();
   const navigation = useRootNavigation();
 
   const onPressBack = useCallback(() => {
@@ -22,6 +27,8 @@ export const LinkDetailScreen = () => {
           <Header.Title title="LINK DETAIL" />
         </Header.Group>
       </Header>
+
+      <WebView style={{ flex: 1 }} source={{ uri: routes.params.item.link }} />
     </View>
   );
 };
