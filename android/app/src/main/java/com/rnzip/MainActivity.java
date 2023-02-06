@@ -1,4 +1,4 @@
-package com.rnzip;
+package com.chabiri.rnzip;
 
 import com.facebook.react.ReactActivity;
 import android.os.Bundle;

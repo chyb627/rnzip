@@ -1,4 +1,4 @@
-package com.rnzip.newarchitecture.modules;
+package com.chabiri.rnzip.newarchitecture.modules;
 
 import com.facebook.jni.HybridData;
 import com.facebook.react.ReactPackage;
