@@ -5,6 +5,7 @@
 #import "RNSplashScreen.h"
 #import <React/RCTAppSetupUtils.h>
 #import <Firebase.h>
+#import <RNGoogleSignin/RNGoogleSignin.h>
 
 #if RCT_NEW_ARCH_ENABLED
 #import <React/CoreModulesPlugins.h>

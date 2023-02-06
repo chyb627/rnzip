@@ -1,17 +1,50 @@
-import React, { useEffect } from 'react';
+import { GoogleSignin, GoogleSigninButton } from '@react-native-google-signin/google-signin';
+import React, { useCallback, useEffect, useState } from 'react';
 import { View } from 'react-native';
-import { Typography } from '../../components/UI/Typography';
+import { useDispatch } from 'react-redux';
+import { signIn, TypeUserDispatch } from '../../actions/user';
 
 export const SplashView: React.FC<{ onFinishLoad: () => void }> = (props) => {
-  useEffect(() => {
-    setTimeout(() => {
+  const [showLoginButton, setShowLoginButton] = useState(false);
+  const dispatch = useDispatch<TypeUserDispatch>();
+
+  const appInit = useCallback(async () => {
+    try {
+      const { idToken } = await GoogleSignin.signInSilently();
+
+      if (idToken !== null) {
+        // await
+        //로그인에대한 어떠한 처리
+        await dispatch(signIn(idToken));
+        props.onFinishLoad();
+      }
+      // setShowLoginButton(true);
+    } catch (ex) {
+      setShowLoginButton(true);
+    }
+  }, []);
+
+  const onPressSignin = useCallback(async () => {
+    await GoogleSignin.hasPlayServices({
+      showPlayServicesUpdateDialog: true,
+    });
+
+    const { idToken } = await GoogleSignin.signIn();
+
+    if (idToken !== null) {
+      //signin
+      await dispatch(signIn(idToken));
       props.onFinishLoad();
-    }, 1000);
-  });
+    }
+  }, []);
+
+  useEffect(() => {
+    appInit();
+  }, []);
 
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Typography fontSize={36}>SPLASH VIEW</Typography>
+      {showLoginButton && <GoogleSigninButton onPress={onPressSignin} />}
     </View>
   );
 };

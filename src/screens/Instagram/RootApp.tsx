@@ -6,8 +6,7 @@ import { SplashView } from './SplashView';
 export const RootApp = () => {
   const [initialize, setInitialize] = useState(false);
 
-  if (!initialize)
-    return <SplashView onFinishLoad={() => setInitialize(true)} />;
+  if (!initialize) return <SplashView onFinishLoad={() => setInitialize(true)} />;
 
   return (
     // <NavigationContainer>

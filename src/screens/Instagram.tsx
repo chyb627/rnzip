@@ -3,6 +3,9 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { Provider } from 'react-redux';
 import { RootApp } from './Instagram/RootApp';
 import { store } from '../store/store';
+import { GoogleSignin } from '@react-native-google-signin/google-signin';
+
+GoogleSignin.configure();
 
 export const Instagram = () => {
   return (
