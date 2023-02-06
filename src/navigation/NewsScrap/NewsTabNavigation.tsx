@@ -1,10 +1,19 @@
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import {
+  BottomTabNavigationProp,
+  createBottomTabNavigator,
+} from '@react-navigation/bottom-tabs';
+import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import React from 'react';
 import { TabIcon } from '../../components/UI/TabIcon';
 import { FavoriteNewsListScreen } from '../../screens/NewsScrap/FavoriteNewsListScreen';
 import { NewsListScreen } from '../../screens/NewsScrap/NewsListScreen';
 
-const BottomTab = createBottomTabNavigator();
+export type TypeBottomTabsScreenParams = {
+  NewsList: undefined;
+  FavoriteNewsList: undefined;
+};
+
+const BottomTab = createBottomTabNavigator<TypeBottomTabsScreenParams>();
 
 export const NewsTabNavigation = () => {
   return (
@@ -33,3 +42,14 @@ export const NewsTabNavigation = () => {
     </BottomTab.Navigator>
   );
 };
+
+export const useBotomTabNavigation = <
+  RouteName extends keyof TypeBottomTabsScreenParams,
+>() =>
+  useNavigation<
+    BottomTabNavigationProp<TypeBottomTabsScreenParams, RouteName>
+  >();
+
+export const useBottomTabRoute = <
+  RouteName extends keyof TypeBottomTabsScreenParams,
+>() => useRoute<RouteProp<TypeBottomTabsScreenParams, RouteName>>();

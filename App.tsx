@@ -25,6 +25,7 @@ import { Translation } from './src/screens/Translation';
 import { Lotto } from './src/screens/Lotto';
 import { ScrapWeb } from './src/screens/ScrapWeb';
 import { NewsScrap } from './src/screens/NewsScrap';
+import { Instagram } from './src/screens/Instagram';
 
 LogBox.ignoreLogs(['Calling `getNode()`']);
 
@@ -68,6 +69,10 @@ const SCREENS: Screens = {
   NewsScrap: {
     screen: NewsScrap,
     title: 'NewsScrap',
+  },
+  Instagram: {
+    screen: Instagram,
+    title: 'Instagram',
   },
 };
 

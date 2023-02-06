@@ -11,7 +11,7 @@ export const CLIP_ITEM_RESET = 'CLIP_ITEM_RESET';
 
 export const STORAGE_KEY = '@MAIN/NEWS_LIST/FAVORITE';
 
-export const getNewsList = (query: string) => (dispatch) => {
+export const getNewsList = (query) => (dispatch) => {
   dispatch({ type: GET_NEWS_LIST_REQUEST });
 
   // setTimeout(() => {

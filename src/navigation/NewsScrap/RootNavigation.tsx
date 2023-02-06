@@ -1,9 +1,34 @@
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import {
+  NavigatorScreenParams,
+  RouteProp,
+  useNavigation,
+  useRoute,
+} from '@react-navigation/native';
+import {
+  createNativeStackNavigator,
+  NativeStackNavigationProp,
+} from '@react-navigation/native-stack';
 import React from 'react';
 import { NewsDetailScreen } from '../../screens/NewsScrap/NewsDetailScreen';
-import { NewsTabNavigation } from './NewsTabNavigation';
+import {
+  NewsTabNavigation,
+  TypeBottomTabsScreenParams,
+} from './NewsTabNavigation';
 
-const Stack = createNativeStackNavigator();
+type ScreenParams = {
+  NewsTab: NavigatorScreenParams<TypeBottomTabsScreenParams>;
+  NewsDetail: {
+    newsItem: {
+      description: string;
+      link: string;
+      originallink: string;
+      pubDate: string;
+      title: string;
+    };
+  };
+};
+
+const Stack = createNativeStackNavigator<ScreenParams>();
 
 export const RootNavigation = () => {
   return (
@@ -13,3 +38,9 @@ export const RootNavigation = () => {
     </Stack.Navigator>
   );
 };
+
+export const useRootNavigation = <RouteName extends keyof ScreenParams>() =>
+  useNavigation<NativeStackNavigationProp<ScreenParams, RouteName>>();
+
+export const useRootRoute = <RouteName extends keyof ScreenParams>() =>
+  useRoute<RouteProp<ScreenParams, RouteName>>();

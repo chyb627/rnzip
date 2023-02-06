@@ -1,4 +1,3 @@
-import { useNavigation } from '@react-navigation/native';
 import React, { useCallback, useState } from 'react';
 import { FlatList, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
@@ -7,10 +6,12 @@ import { Button } from '../../components/UI/Button';
 import { Header } from '../../components/UI/Header/Header';
 import { SingleLineInput } from '../../components/UI/SingleLineInput';
 import { Typography } from '../../components/UI/Typography';
+import { useRootNavigation } from '../../navigation/NewsScrap/RootNavigation';
+import { RootState } from '../../store/store';
 
 export const NewsListScreen = () => {
   const dispatch = useDispatch();
-  const navigation = useNavigation();
+  const navigation = useRootNavigation();
   const [query, setQuery] = useState('');
 
   const onSubmitEditing = useCallback(() => {
