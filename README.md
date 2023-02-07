@@ -141,3 +141,9 @@ yarn add @react-native-firebase/crashlytics
 npx uri-scheme open "scheme://path" --ios
 npx uri-scheme open "scheme://path" --android
 ```
+
+## patch-package
+
+1. 변경 원하는 라이브러리 node_modules에 찾아가서 변경
+2. yarn patch-package babel-plugin-tailwind-rn
+3. patch-package 파일 생성됨
