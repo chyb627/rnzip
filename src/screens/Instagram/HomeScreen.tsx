@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect } from 'react';
 import { FlatList, View } from 'react-native';
 import { useDispatch } from 'react-redux';
+// import crashlytics from '@react-native-firebase/crashlytics';
 import { favoriteFeed, getFeedList, TypeFeedListDispatch } from '../../actions/feed';
 import { Header } from '../../components/UI/Header/Header';
 import { Spacer } from '../../components/UI/Spacer';
@@ -18,6 +19,8 @@ export const HomeScreen: React.FC = () => {
   }, []);
 
   useEffect(() => {
+    // crash 내보기
+    // crashlytics().crash();
     dispatch(getFeedList());
   }, []);
 

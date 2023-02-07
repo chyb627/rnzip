@@ -3,21 +3,21 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>660292728098-a2kkuk9q5qbu2krbe69dn5uj5jnfdub9.apps.googleusercontent.com</string>
+	<string>32837065563-0nl15ulradf45h6d68veiqg78min4k3f.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.660292728098-a2kkuk9q5qbu2krbe69dn5uj5jnfdub9</string>
+	<string>com.googleusercontent.apps.32837065563-0nl15ulradf45h6d68veiqg78min4k3f</string>
 	<key>API_KEY</key>
-	<string>AIzaSyAzPBk13d44aGuporQzcLPLRmvs7dXqBcA</string>
+	<string>AIzaSyAw1FzATB-wQ9lgC8RM-Ne9v9kOFN-9MRk</string>
 	<key>GCM_SENDER_ID</key>
-	<string>660292728098</string>
+	<string>32837065563</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
 	<string>com.chabiri.rnzip</string>
 	<key>PROJECT_ID</key>
-	<string>rnzip-8f9d4</string>
+	<string>rnzip-47e82</string>
 	<key>STORAGE_BUCKET</key>
-	<string>rnzip-8f9d4.appspot.com</string>
+	<string>rnzip-47e82.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -29,6 +29,8 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:660292728098:ios:2aeb5bd41bc7d407a1e17b</string>
+	<string>1:32837065563:ios:7cd6df97923c1612f5d87e</string>
+	<key>DATABASE_URL</key>
+	<string>https://rnzip-47e82-default-rtdb.firebaseio.com</string>
 </dict>
 </plist>
