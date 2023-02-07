@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect } from 'react';
 import { FlatList, View } from 'react-native';
 import { useDispatch } from 'react-redux';
-import { getFeedList, TypeFeedListDispatch } from '../../actions/feed';
+import { favoriteFeed, getFeedList, TypeFeedListDispatch } from '../../actions/feed';
 import { Header } from '../../components/UI/Header/Header';
 import { Spacer } from '../../components/UI/Spacer';
 import { useRootNavigation } from '../../navigation/Instagram/RootStackNavigation';
@@ -31,6 +31,8 @@ export const HomeScreen: React.FC = () => {
       <FlatList
         data={feedList}
         renderItem={({ item }) => {
+          console.log(item);
+
           return (
             <FeedListItem
               image={item.imageUrl}
@@ -38,8 +40,13 @@ export const HomeScreen: React.FC = () => {
               isLiked={false}
               likeCount={item.likeHistory.length}
               writer={item.writer.name}
+              createdAt={item.createdAt}
               onPressFeed={() => {
                 console.log('onPressFeed');
+              }}
+              onPressFavorite={() => {
+                console.log('onPressFavrite');
+                dispatch(favoriteFeed(item));
               }}
             />
           );

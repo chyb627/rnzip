@@ -41,17 +41,7 @@ export const getMyFeedFailure = () => {
 
 export const signIn =
   (idToken: string): TypeUserThunkAction =>
-  async (dispatch) => {
-    await sleep(1000);
-
-    // dispatch(
-    //   setUserInfo({
-    //     uid: 'TEST_UID',
-    //     name: 'TEST_NAME',
-    //     profileImage: 'TEST_PROFILE_IMAGE',
-    //   }),
-    // );
-
+  async (dispach) => {
     const googleSigninCredential = auth.GoogleAuthProvider.credential(idToken);
     const singinResult = await auth().signInWithCredential(googleSigninCredential);
 
@@ -88,50 +78,26 @@ export const signIn =
     }
   };
 
-export const getMyFeedList = (): TypeUserThunkAction => async (dispatch) => {
+export const getMyFeedList = (): TypeUserThunkAction => async (dispatch, getState) => {
   dispatch(getMyFeedRequest());
 
   await sleep(500);
-  dispatch(
-    getMyFeedSuccess([
-      {
-        id: 'IDIDID1',
-        content: 'CONTENT1',
-        writer: {
-          name: 'NAME1',
-          uid: 'UID1',
-        },
-        imageUrl:
-          'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTmIqaNHzUTR81YyZZ9UheF3KQ3Q_gwZBSqhA&usqp=CAU',
-        likeHistory: ['UID_01', 'UID_02', 'UID_03'],
-        createdAt: new Date().getTime(),
-      },
-      {
-        id: 'IDIDID2',
-        content: 'CONTENT2',
-        writer: {
-          name: 'NAME2',
-          uid: 'UID2',
-        },
-        imageUrl:
-          'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRBEJXbuwtmMSeRMzw2fiUqCUB-yLZOFzcycQ&usqp=CAU',
-        likeHistory: ['UID_21', 'UID_22', 'UID_23'],
-        createdAt: new Date().getTime(),
-      },
-      {
-        id: 'IDIDID3',
-        content: 'CONTENT3',
-        writer: {
-          name: 'NAME3',
-          uid: 'UID3',
-        },
-        imageUrl:
-          'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRBEJXbuwtmMSeRMzw2fiUqCUB-yLZOFzcycQ&usqp=CAU',
-        likeHistory: ['UID_31', 'UID_32', 'UID_33'],
-        createdAt: new Date().getTime(),
-      },
-    ]),
-  );
+  const lastFeedList = await database()
+    .ref('/feed')
+    .once('value')
+    .then((snapshot) => snapshot.val());
+
+  const result = Object.keys(lastFeedList)
+    .map((key) => {
+      return {
+        ...lastFeedList[key],
+        id: key,
+        likeHistory: lastFeedList[key].likeHistory ?? [],
+      };
+    })
+    .filter((item) => item.writer.uid === getState().userInfo.userInfo?.uid);
+
+  dispatch(getMyFeedSuccess(result));
 };
 
 export type TypeUserThunkAction = ThunkAction<

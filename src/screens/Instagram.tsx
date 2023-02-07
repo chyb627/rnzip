@@ -4,6 +4,7 @@ import { Provider } from 'react-redux';
 import { RootApp } from './Instagram/RootApp';
 import { store } from '../store/store';
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
+import 'react-native-gesture-handler';
 
 GoogleSignin.configure();
 

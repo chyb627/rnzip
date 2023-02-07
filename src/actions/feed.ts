@@ -1,7 +1,11 @@
+import { ThunkAction, ThunkDispatch } from 'redux-thunk';
+import storage from '@react-native-firebase/storage';
+import database from '@react-native-firebase/database';
+
 import { FeedInfo } from '../types/FeedInfo';
 import { sleep } from '../util/sleep';
-import { ThunkAction, ThunkDispatch } from 'redux-thunk';
 import { RootReducer } from '../store/store';
+import { Platform } from 'react-native';
 
 export const GET_FEED_LIST_REQUEST = 'GET_FEED_LIST_REQUEST' as const;
 export const GET_FEED_LIST_SUCCESS = 'GET_FEED_LIST_SUCCESS' as const;
@@ -36,49 +40,20 @@ export const getFeedListFailure = () => {
 
 export const getFeedList = (): TypeFeedListThunkAction => async (dispatch) => {
   dispatch(getFeedListRequest());
+  const lastFeedList = await database()
+    .ref('/feed')
+    .once('value')
+    .then((snapshot) => snapshot.val());
 
-  await sleep(500);
+  const result = Object.keys(lastFeedList).map((key) => {
+    return {
+      ...lastFeedList[key],
+      id: key,
+      likeHistory: lastFeedList[key].likeHistory ?? [],
+    };
+  });
 
-  dispatch(
-    getFeedListSuccess([
-      {
-        id: 'IDIDID1',
-        content: 'CONTENT1',
-        writer: {
-          name: 'NAME1',
-          uid: 'UID1',
-        },
-        imageUrl:
-          'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTmIqaNHzUTR81YyZZ9UheF3KQ3Q_gwZBSqhA&usqp=CAU',
-        likeHistory: ['UID_01', 'UID_02', 'UID_03'],
-        createdAt: new Date().getTime(),
-      },
-      {
-        id: 'IDIDID2',
-        content: 'CONTENT2',
-        writer: {
-          name: 'NAME2',
-          uid: 'UID2',
-        },
-        imageUrl:
-          'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRBEJXbuwtmMSeRMzw2fiUqCUB-yLZOFzcycQ&usqp=CAU',
-        likeHistory: ['UID_21', 'UID_22', 'UID_23'],
-        createdAt: new Date().getTime(),
-      },
-      {
-        id: 'IDIDID3',
-        content: 'CONTENT3',
-        writer: {
-          name: 'NAME3',
-          uid: 'UID3',
-        },
-        imageUrl:
-          'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRBEJXbuwtmMSeRMzw2fiUqCUB-yLZOFzcycQ&usqp=CAU',
-        likeHistory: ['UID_31', 'UID_32', 'UID_33'],
-        createdAt: new Date().getTime(),
-      },
-    ]),
-  );
+  dispatch(getFeedListSuccess(result));
 };
 
 export const createFeedRequest = () => {
@@ -101,30 +76,54 @@ export const createFeedFailure = () => {
 };
 
 export const createFeed =
-  (
-    item: Omit<FeedInfo, 'id' | 'writer' | 'createdAt' | 'likeHistory'>,
-  ): TypeFeedListThunkAction =>
-  async (dispatch, getState) => {
-    dispatch(createFeedRequest());
+  (item: Omit<FeedInfo, 'id' | 'writer' | 'createdAt' | 'likeHistory'>): TypeFeedListThunkAction =>
+  async (dispach, getState) => {
+    dispach(createFeedRequest());
 
     const createdAt = new Date().getTime();
     const userInfo = getState().userInfo.userInfo;
+    const pickPhotoUrlList = item.imageUrl.split('/');
+    const pickPhotoFileName = pickPhotoUrlList[pickPhotoUrlList.length - 1];
 
-    await sleep(200);
+    const putFileUrl = await storage()
+      .ref(pickPhotoFileName)
+      .putFile(Platform.OS === 'ios' ? item.imageUrl.replace('file://', '') : item.imageUrl)
+      .then((result) => storage().ref(result.metadata.fullPath).getDownloadURL());
 
-    dispatch(
-      createFeedSuccess({
-        id: 'ID-010',
-        content: item.content,
-        writer: {
-          name: userInfo?.name || 'Unknown',
-          uid: userInfo?.uid || 'Unknown',
-        },
-        imageUrl: item.imageUrl,
-        likeHistory: [],
-        createdAt,
-      }),
-    );
+    const feedDB = await database().ref('/feed');
+    const saveItem: Omit<FeedInfo, 'id'> = {
+      content: item.content,
+      writer: {
+        name: userInfo?.name || 'Unknown',
+        uid: userInfo?.uid || 'Unknown',
+      },
+      imageUrl: putFileUrl,
+      likeHistory: [],
+      createdAt,
+    };
+
+    await feedDB.push().set({
+      ...saveItem,
+    });
+
+    const lastFeedList = await feedDB.once('value').then((snapshot) => snapshot.val());
+
+    Object.keys(lastFeedList).forEach((key) => {
+      const item = lastFeedList[key];
+
+      if (item.createdAt == createdAt && putFileUrl === item.imageUrl) {
+        dispach(
+          createFeedSuccess({
+            id: key,
+            content: item.content,
+            writer: item.writer,
+            imageUrl: item.imageUrl,
+            likeHistory: item.likeHistory ?? [],
+            createdAt,
+          }),
+        );
+      }
+    });
   };
 
 export const favoriteFeedRequest = () => {
@@ -164,19 +163,33 @@ export const favoriteFeed =
       return;
     }
 
-    await sleep(1000);
+    const feedDB = database().ref(`/feed/${item.id}`);
+    const feedItem = (await feedDB.once('value').then((snapshot) => snapshot.val())) as FeedInfo;
 
-    const hasMyId =
-      item.likeHistory.filter((likeUserId) => likeUserId === myId).length > 0;
-
-    if (hasMyId) {
-      //있을 경우 빼는 액션
-      dispatch(favoriteFeedSuccess(item.id, myId, 'del'));
-    } else {
-      //없을경우 추가하는 액션
+    if (typeof feedItem.likeHistory === 'undefined') {
+      await feedDB.update({
+        likeHistory: [myId],
+      });
       dispatch(favoriteFeedSuccess(item.id, myId, 'add'));
+    } else {
+      const hasMyId = feedItem.likeHistory.filter((likeUserId) => likeUserId === myId).length > 0;
+      if (hasMyId) {
+        await feedDB.update({
+          likeHistory: feedItem.likeHistory.filter((likeUserId) => likeUserId !== myId),
+        });
+
+        dispatch(favoriteFeedSuccess(item.id, myId, 'del'));
+      } else {
+        await feedDB.update({
+          likeHistory: feedItem.likeHistory.concat([myId]),
+        });
+
+        dispatch(favoriteFeedSuccess(item.id, myId, 'add'));
+      }
     }
   };
+
+export type TypeFeedListDispatch = ThunkDispatch<RootReducer, undefined, TypeFeedListActions>;
 
 export type TypeFeedListThunkAction = ThunkAction<
   void,
@@ -184,13 +197,6 @@ export type TypeFeedListThunkAction = ThunkAction<
   undefined,
   TypeFeedListActions
 >;
-
-export type TypeFeedListDispatch = ThunkDispatch<
-  RootReducer,
-  undefined,
-  TypeFeedListActions
->;
-
 export type TypeFeedListActions =
   | ReturnType<typeof getFeedListRequest>
   | ReturnType<typeof getFeedListSuccess>

@@ -11,10 +11,13 @@ import { RemoteImage } from '../../components/UI/RemoteImage';
 import { Spacer } from '../../components/UI/Spacer';
 import { Typography } from '../../components/UI/Typography';
 import { useRootNavigation } from '../../navigation/Instagram/RootStackNavigation';
+import { useDispatch } from 'react-redux';
+import { createFeed, TypeFeedListDispatch } from '../../actions/feed';
 
 export const AddFeedScreen: React.FC = () => {
   const rootNavigation = useRootNavigation();
   const SafeAreaInsets = useSafeAreaInsets();
+  const dispatch = useDispatch<TypeFeedListDispatch>();
 
   const [selectedPhoto, setSelectedPhoto] = useState<string | null>(null);
   const [inputMessage, setInputMessage] = useState('');
@@ -45,8 +48,17 @@ export const AddFeedScreen: React.FC = () => {
     setSelectedPhoto(result.assets[0].uri);
   }, []);
 
-  const onPressSave = useCallback(() => {
+  const onPressSave = useCallback(async () => {
     if (!canSave) return;
+
+    if (selectedPhoto === null) return;
+
+    await dispatch(
+      createFeed({
+        imageUrl: selectedPhoto,
+        content: inputMessage,
+      }),
+    );
   }, [canSave, selectedPhoto, inputMessage]);
 
   return (
