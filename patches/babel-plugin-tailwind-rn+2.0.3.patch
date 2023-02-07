@@ -1,0 +1,57 @@
+diff --git a/node_modules/babel-plugin-tailwind-rn/dist/index.js b/node_modules/babel-plugin-tailwind-rn/dist/index.js
+index 29f37fe..c24ad97 100644
+--- a/node_modules/babel-plugin-tailwind-rn/dist/index.js
++++ b/node_modules/babel-plugin-tailwind-rn/dist/index.js
+@@ -32,6 +32,12 @@ var twConfig = function twConfig() {
+ 
+   if (fs.existsSync(customConfig)) {
+     extras = require(customConfig);
++  } else {
++    var parentDir = path.resolve(process.cwd(), '..');
++    customConfig = path.join(parentDir, 'tailwind.config.js');
++    if (fs.existsSync(customConfig)) {
++      extras = require(customConfig);
++    }
+   }
+ 
+   extras.target = 'ie11';
+@@ -83,12 +89,12 @@ var supportedUtilities = [// Flexbox
+ /^(min-w-|max-w-|min-h-0|min-h-full|max-h-full)/, // Font size
+ /^text-/, // Font style
+ /^(not-)?italic$/, // Font weight
+-/^font-(hairline|thin|light|normal|medium|semibold|bold|extrabold|black)/, // Letter spacing
++/^font-(n|nm|nb|hairline|thin|light|normal|medium|semibold|bold|extrabold|black)/, // Letter spacing
+ /^tracking-/, // Line height
+ /^leading-\d+/, // Text align, color, opacity
+ /^text-/, // Text transform
+ 'uppercase', 'lowercase', 'capitalize', 'normal-case', // Background color
+-/^bg-(transparent|black|white|gray|red|orange|yellow|green|teal|blue|indigo|purple|pink)/, // Background opacity
++/^bg-(transparent|black|white|gray|red|orange|yellow|green|teal|blue|indigo|purple|pink|(\w|-)*)/, // Background opacity
+ /^bg-opacity-/, // Border color, style, width, radius, opacity
+ /^(border|rounded)/, // Opacity
+ /^opacity-/, // Pointer events
+@@ -195,7 +201,14 @@ postcss([tailwind(twConfig())]).process(source, {
+   console.error(error.stack);
+   process.exit(1);
+ });
+-fs.writeFileSync("".concat(__dirname, "/screens.json"), JSON.stringify(config().theme.screens, null, '\t'));
++
++const _screens = {
++  sm: '640px',
++  md: '768px',
++  lg: '1024px',
++  xl: '1280px',
++};
++fs.writeFileSync("".concat(__dirname, "/screens.json"), JSON.stringify(_screens, null, '\t'));
+ 
+ module.exports = function (_ref4) {
+   var t = _ref4.types;
+diff --git a/node_modules/babel-plugin-tailwind-rn/dist/useTailwind.js b/node_modules/babel-plugin-tailwind-rn/dist/useTailwind.js
+index 2d39abc..395147e 100644
+--- a/node_modules/babel-plugin-tailwind-rn/dist/useTailwind.js
++++ b/node_modules/babel-plugin-tailwind-rn/dist/useTailwind.js
+@@ -131,3 +131,4 @@ var TailwindProvider = function TailwindProvider(WrappedComponent) {
+ var _default = TailwindProvider;
+ exports["default"] = _default;
+ global.useTailwind = getStyles;
++global.tw = getStyles;

@@ -26,7 +26,9 @@ import { Lotto } from './src/screens/Lotto';
 import { ScrapWeb } from './src/screens/ScrapWeb';
 import { NewsScrap } from './src/screens/NewsScrap';
 import { Instagram } from './src/screens/Instagram';
+import { TailwindCss } from './src/screens/TailwindCss';
 
+import 'babel-plugin-tailwind-rn/dist/useTailwind';
 LogBox.ignoreLogs(['Calling `getNode()`']);
 
 if (Platform.OS === 'android') {
@@ -73,6 +75,10 @@ const SCREENS: Screens = {
   Instagram: {
     screen: Instagram,
     title: 'Instagram',
+  },
+  TailwindCss: {
+    screen: TailwindCss,
+    title: 'TailwindCss',
   },
 };
 
