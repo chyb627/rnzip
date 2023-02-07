@@ -10,7 +10,8 @@
     "start": "react-native start --reset-cache",
     "pod": "cd ios && pod install && cd ..",
     "test:typescript": "tsc",
-    "test:lint": "eslint ."
+    "test:lint": "eslint .",
+    "test:unit": "jest"
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "^1.17.11",
