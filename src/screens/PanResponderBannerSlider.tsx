@@ -1,11 +1,57 @@
 import React, { useRef, useState } from 'react';
-import { Text, View, StyleSheet, Dimensions, TouchableOpacity, Animated } from 'react-native';
+import {
+  Text,
+  View,
+  StyleSheet,
+  Dimensions,
+  TouchableOpacity,
+  Animated,
+  PanResponder,
+} from 'react-native';
 
 const { width } = Dimensions.get('window');
 
 const PanResponderBannerSlider = () => {
   const bannerAnim = useRef(new Animated.Value(0)).current;
   const [focus, setFocus] = useState(0);
+  const pendingRef = useRef(true); // 2개 이상 페이지를 막기위한 트리거
+
+  const panResponder = PanResponder.create({
+    onMoveShouldSetPanResponder: () => true,
+    onPanResponderMove: (event, gestureState) => {
+      // console.log(gestureState.dx);
+      const toRight = gestureState.dx < -80;
+      const toLeft = gestureState.dx > 80;
+
+      if (toRight && pendingRef.current && focus < 3) {
+        setFocus(focus + 1);
+        pendingRef.current = false;
+        Animated.timing(bannerAnim, {
+          toValue: -(focus + 1) * width,
+          duration: 500,
+          useNativeDriver: true,
+        }).start(({ finished }) => {
+          if (finished) {
+            pendingRef.current = true;
+          }
+        });
+      }
+      if (toLeft && pendingRef.current && focus > 0) {
+        setFocus(focus - 1);
+        pendingRef.current = false;
+        Animated.timing(bannerAnim, {
+          toValue: -(focus - 1) * width,
+          duration: 500,
+          useNativeDriver: true,
+        }).start(({ finished }) => {
+          if (finished) {
+            pendingRef.current = true;
+          }
+        });
+      }
+    },
+  });
+
   const onButtonNavigation = (index) => {
     setFocus(index);
     Animated.timing(bannerAnim, {
@@ -18,6 +64,7 @@ const PanResponderBannerSlider = () => {
   return (
     <View style={styles.container}>
       <Animated.View
+        {...panResponder.panHandlers}
         style={[
           styles.contentsContainer,
           {
