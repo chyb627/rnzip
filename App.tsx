@@ -29,6 +29,7 @@ import Graffiti from './src/screens/Graffiti';
 import PanResponderInfo from './src/screens/PanResponderInfo';
 import PanResponderBall from './src/screens/PanResponderBall';
 import PanResponderBannerSlider from './src/screens/PanResponderBannerSlider';
+import PanResponderFontSlider from './src/screens/PanResponderFontSlider';
 
 type Screens = Record<string, { screen: React.ComponentType; title?: string }>;
 
@@ -48,6 +49,10 @@ const SCREENS: Screens = {
   PanResponderBannerSlider: {
     screen: PanResponderBannerSlider,
     title: 'PanResponderBannerSlider',
+  },
+  PanResponderFontSlider: {
+    screen: PanResponderFontSlider,
+    title: 'PanResponderFontSlider',
   },
   Kakaotalk: {
     screen: Kakaotalk,
