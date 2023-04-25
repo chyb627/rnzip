@@ -28,6 +28,7 @@ import ReanimatedScreen from './src/screens/ReanimatedScreen';
 import Graffiti from './src/screens/Graffiti';
 import PanResponderInfo from './src/screens/PanResponderInfo';
 import PanResponderBall from './src/screens/PanResponderBall';
+import PanResponderBannerSlider from './src/screens/PanResponderBannerSlider';
 
 type Screens = Record<string, { screen: React.ComponentType; title?: string }>;
 
@@ -43,6 +44,10 @@ const SCREENS: Screens = {
   PanResponderBall: {
     screen: PanResponderBall,
     title: 'PanResponderBall',
+  },
+  PanResponderBannerSlider: {
+    screen: PanResponderBannerSlider,
+    title: 'PanResponderBannerSlider',
   },
   Kakaotalk: {
     screen: Kakaotalk,
