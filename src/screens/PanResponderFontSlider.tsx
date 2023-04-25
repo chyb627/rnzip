@@ -1,33 +1,70 @@
-import React, { useState } from 'react';
-import { StyleSheet, Text, TouchableWithoutFeedback, View } from 'react-native';
+import React, { useRef, useState } from 'react';
+import {
+  Animated,
+  PanResponder,
+  StyleSheet,
+  Text,
+  TouchableWithoutFeedback,
+  View,
+} from 'react-native';
 
 const BOX = 50;
 const CIRCLE = 20;
+const FONT = [
+  {
+    title: { fontSize: 20, lineHeight: 32 },
+    body: { fontSize: 12 },
+  },
+  {
+    title: { fontSize: 24, lineHeight: 38 },
+    body: { fontSize: 14 },
+  },
+  {
+    title: { fontSize: 30, lineHeight: 40 },
+    body: { fontSize: 15 },
+  },
+  {
+    title: { fontSize: 38, lineHeight: 50 },
+    body: { fontSize: 19 },
+  },
+];
 
 const PanResponderFontSlider = () => {
-  const FONT = [
-    {
-      title: { fontSize: 20, lineHeight: 32 },
-      body: { fontSize: 12 },
-    },
-    {
-      title: { fontSize: 24, lineHeight: 38 },
-      body: { fontSize: 14 },
-    },
-    {
-      title: { fontSize: 30, lineHeight: 40 },
-      body: { fontSize: 15 },
-    },
-    {
-      title: { fontSize: 38, lineHeight: 50 },
-      body: { fontSize: 19 },
-    },
-  ];
-
+  const circleAnim = useRef(new Animated.Value(0)).current;
   const [step, setStep] = useState(0);
+  const panResponder = PanResponder.create({
+    onMoveShouldSetPanResponder: () => true,
+    onStartShouldSetPanResponder: () => true,
+    onPanResponderStart: () => {
+      circleAnim.setValue(step * BOX);
+    },
+    onPanResponderMove: (event, gestureState) => {
+      circleAnim.setValue(gestureState.dx + step * BOX);
+    },
+    onPanResponderEnd: (event, gestureState) => {
+      const fontStep = step + Math.round(gestureState.dx / 50);
+      const toValue = fontStep * BOX;
+      setStep(fontStep);
+
+      Animated.spring(circleAnim, {
+        toValue,
+        friction: 7,
+        tension: 50,
+        duration: 100,
+        useNativeDriver: true,
+      }).start();
+    },
+  });
 
   const onPress = (index) => {
     setStep(index);
+    Animated.spring(circleAnim, {
+      toValue: index * BOX,
+      friction: 7,
+      tension: 50,
+      duration: 100,
+      useNativeDriver: true,
+    }).start();
   };
 
   return (
@@ -55,11 +92,12 @@ const PanResponderFontSlider = () => {
             ))}
           </View>
 
-          <View
+          <Animated.View
+            {...panResponder.panHandlers}
             style={[
               styles.selectedCircle,
               {
-                left: BOX / 2 - CIRCLE / 2 + step * BOX,
+                transform: [{ translateX: circleAnim }],
               },
             ]}
           />
@@ -112,6 +150,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#333',
     position: 'absolute',
     borderRadius: 100,
+    left: BOX / 2 - CIRCLE / 2,
   },
 });
 
