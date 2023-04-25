@@ -30,6 +30,10 @@ const PanResponderInfo = () => {
     onPanResponderStart: (event, gestureState) => {
       // console.log(gestureState);
       setStatus({
+        dx: 0,
+        dy: 0,
+        vx: 0,
+        vy: 0,
         moveX: gestureState.x0,
         moveY: gestureState.y0,
         x0: gestureState.x0,

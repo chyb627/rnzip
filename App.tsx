@@ -27,6 +27,7 @@ import AnimationScreen from './src/screens/AnimationScreen';
 import ReanimatedScreen from './src/screens/ReanimatedScreen';
 import Graffiti from './src/screens/Graffiti';
 import PanResponderInfo from './src/screens/PanResponderInfo';
+import PanResponderBall from './src/screens/PanResponderBall';
 
 type Screens = Record<string, { screen: React.ComponentType; title?: string }>;
 
@@ -38,6 +39,10 @@ const SCREENS: Screens = {
   PanResponderInfo: {
     screen: PanResponderInfo,
     title: 'PanResponderInfo',
+  },
+  PanResponderBall: {
+    screen: PanResponderBall,
+    title: 'PanResponderBall',
   },
   Kakaotalk: {
     screen: Kakaotalk,
