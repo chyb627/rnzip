@@ -1,23 +1,18 @@
+/* eslint-disable react/no-unstable-nested-components */
 import React, { useCallback, useState } from 'react';
-import { FlatList, Platform, StyleSheet, View } from 'react-native';
-import {
-  getBottomSpace,
-  getStatusBarHeight,
-} from 'react-native-iphone-x-helper';
-import { KakaoHeader } from '../components/Kakaotalk/KakaoHeader';
-import { Profile } from '../components/Kakaotalk/Profile';
+import { FlatList, StyleSheet, View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+
+import KakaoHeader from '../components/Kakaotalk/KakaoHeader';
+import Spacer from '../components/ui/Spacer';
+import Profile from '../components/Kakaotalk/Profile';
+import Division from '../components/ui/Division';
+import FriendSection from '../components/Kakaotalk/FriendSection';
+import TabBar from '../components/Kakaotalk/TabBar';
 import { friendProfiles, myProfile } from '../data/Kakaotalk/data';
-import { Margin } from '../components/UI/Margin';
-import { Division } from '../components/UI/Division';
-import { FriendSection } from '../components/Kakaotalk/FriendSection';
-import { TabBar } from '../components/Kakaotalk/TabBar';
 
-const statusBarHeight = getStatusBarHeight(true);
-const bottomSpace = getBottomSpace();
-
-console.log(`${Platform.OS}: ${statusBarHeight}, ${bottomSpace}`);
-
-export const Kakaotalk = () => {
+const Kakaotalk = () => {
+  const insets = useSafeAreaInsets();
   const [isOpened, setIsOpend] = useState(true);
   const [selectedTabIdx, setSelectedTabIdx] = useState(0);
 
@@ -25,18 +20,13 @@ export const Kakaotalk = () => {
     setIsOpend(!isOpened);
   }, [isOpened]);
 
-  const ItemSeparatorComponent = () => <Margin height={13} />;
+  const ItemSeparatorComponent = () => <Spacer space={13} />;
 
   const renderItem: React.FC<{
     item: { uri: string; name: string; introduction: string };
   }> = ({ item }) => (
     <View>
-      <Profile
-        uri={item.uri}
-        name={item.name}
-        introduction={item.introduction}
-        isMe={false}
-      />
+      <Profile uri={item.uri} name={item.name} introduction={item.introduction} isMe={false} />
     </View>
   );
 
@@ -44,7 +34,7 @@ export const Kakaotalk = () => {
     <View style={styles.headerContainer}>
       <KakaoHeader />
 
-      <Margin height={10} />
+      <Spacer space={10} />
 
       <Profile
         uri={myProfile.uri}
@@ -53,11 +43,11 @@ export const Kakaotalk = () => {
         isMe={true}
       />
 
-      <Margin height={15} />
+      <Spacer space={15} />
 
       <Division />
 
-      <Margin height={12} />
+      <Spacer space={12} />
 
       <FriendSection
         freindProfileLen={friendProfiles.length}
@@ -65,14 +55,14 @@ export const Kakaotalk = () => {
         isOpened={isOpened}
       />
 
-      <Margin height={5} />
+      <Spacer space={5} />
     </View>
   );
 
-  const ListFooterComponent = () => <Margin height={10} />;
+  const ListFooterComponent = () => <Spacer space={10} />;
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { paddingTop: insets.top }]}>
       <FlatList
         keyExtractor={(_, index) => `kakao-${index}`}
         data={isOpened ? friendProfiles : []}
@@ -85,10 +75,7 @@ export const Kakaotalk = () => {
         showsVerticalScrollIndicator={false}
       />
 
-      <TabBar
-        selectedTabIdx={selectedTabIdx}
-        setSelectedTabIdx={setSelectedTabIdx}
-      />
+      <TabBar selectedTabIdx={selectedTabIdx} setSelectedTabIdx={setSelectedTabIdx} />
     </View>
   );
 };
@@ -97,7 +84,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    paddingTop: statusBarHeight,
   },
   headerContainer: {
     backgroundColor: '#fff',
@@ -106,3 +92,5 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
   },
 });
+
+export default Kakaotalk;

@@ -1,20 +1,7 @@
 import React, { ReactElement } from 'react';
-import { Pressable } from 'react-native';
-// export class Button extends React.Component{
+import { TouchableOpacity } from 'react-native';
 
-//     render(){
-//         return (
-//             <Pressable
-//                 onPress={this.props.onPress}
-//                 hitSlop={this.props.hitSlop ?? {left:0, right:0, top:0, bottom:0}}
-//                 >
-//                 {this.props.children}
-//             </Pressable>
-//         )
-//     }
-// }
-
-export const Button: React.FC<{
+const Button: React.FC<{
   onPressIn?: () => void;
   onPressOut?: () => void;
   onPress: () => void;
@@ -22,9 +9,9 @@ export const Button: React.FC<{
   backgroundColor?: string;
   paddingHorizontal?: number;
   paddingVertical?: number;
-  children: ReactElement;
+  children: ReactElement | ReactElement[];
 }> = (props) => (
-  <Pressable
+  <TouchableOpacity
     {...props}
     onPressIn={props.onPressIn}
     onPressOut={props.onPressOut}
@@ -43,5 +30,7 @@ export const Button: React.FC<{
       paddingVertical: props.paddingVertical,
     }}>
     {props.children}
-  </Pressable>
+  </TouchableOpacity>
 );
+
+export default Button;

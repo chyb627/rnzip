@@ -2,9 +2,7 @@ import { useCallback, useState } from 'react';
 
 export const useCalculator = () => {
   const [input, setInput] = useState<number>(0);
-  const [currentOperator, setCurrentOperator] = useState<
-    '+' | '-' | '*' | '/' | '=' | null
-  >(null);
+  const [currentOperator, setCurrentOperator] = useState<'+' | '-' | '*' | '/' | '=' | null>(null);
   const [result, setResult] = useState<number>(0);
   const [tempInput, setTempInput] = useState<number>(0);
   const [tempOperator, setTempOperator] = useState<string | null>(null);

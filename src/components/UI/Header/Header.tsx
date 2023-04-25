@@ -1,7 +1,7 @@
 import React, { ReactElement } from 'react';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { View, useWindowDimensions } from 'react-native';
-import { Spacer } from '../Spacer';
+import { View, useWindowDimensions, StyleSheet } from 'react-native';
+import Spacer from '../Spacer';
 import { HeaderTitle } from './HeaderTitle';
 import { HeaderIcon } from './HeaderButton';
 import { HeaderGroup } from './HeaderGroup';
@@ -28,58 +28,29 @@ export const Header: React.FC<{
 
   return (
     <View style={{ paddingTop: insets.top }}>
-      <View
-        style={{
-          width,
-          flexDirection: 'row',
-          height: 56,
-          borderBottomColor: 'gray',
-          borderBottomWidth: 1,
-          alignItems: 'center',
-        }}>
+      <View style={[{ width }, styles.headerWrap]}>
         <Spacer horizontal space={12} />
-        <View
-          style={{
-            flex: 1,
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-          }}>
-          {props.children}
-        </View>
+        <View style={styles.headerInnerWrap}>{props.children}</View>
         <Spacer horizontal space={12} />
       </View>
     </View>
   );
 };
 
-// export class Header extends React.Component{
-//     render(){
-//         return(
-//             <SafeAreaInsetsContext.Consumer>
-//                 {insets=>(
-//                     <View style={{paddingTop:insets.top,}}>
-//                         <View
-//                             style={{
-//                                 width:width,
-//                                 flexDirection:'row',
-//                                 height:56,
-//                                 borderBottomColor:'gray',
-//                                 borderBottomWidth:1,
-//                                 alignItems:'center'
-//                             }}>
-
-//                             <Spacer horizontal={true} space={12}/>
-//                             <View style={{flex:1, flexDirection:'row', justifyContent:'space-between'}}>
-//                                 {this.props.children}
-//                             </View>
-//                             <Spacer horizontal={true} space={12}/>
-//                         </View>
-//                     </View>
-//                 )}
-//             </SafeAreaInsetsContext.Consumer>
-//         )
-//     }
-// }
+const styles = StyleSheet.create({
+  headerWrap: {
+    flexDirection: 'row',
+    height: 48,
+    borderBottomColor: 'gray',
+    borderBottomWidth: 1,
+    alignItems: 'center',
+  },
+  headerInnerWrap: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+});
 
 Header.Title = HeaderTitle;
 Header.Icon = HeaderIcon;

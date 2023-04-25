@@ -1,22 +1,21 @@
-/* eslint-disable react-native/no-inline-styles */
 import React from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { Icon } from '../UI/Icons';
+import Icon from '../ui/Icons';
 
 const IconButton: React.FC<{ name: string }> = (props) => {
   return (
-    <TouchableOpacity hitSlop={{ top: 15, bottom: 15 }} style={{ paddingHorizontal: 6 }}>
+    <TouchableOpacity hitSlop={{ top: 15, bottom: 15 }} style={styles.iconButtonContainer}>
       <Icon name={props.name} size={24} color="#000" />
     </TouchableOpacity>
   );
 };
 
-export const KakaoHeader = () => {
+const KakaoHeader = () => {
   return (
-    <View style={styles.headerContainer}>
+    <View style={styles.container}>
       <Text style={styles.title}>친구</Text>
 
-      <View style={{ flexDirection: 'row' }}>
+      <View style={styles.buttonContainer}>
         <IconButton name="search" />
         <IconButton name="ios-person-add-outline" />
         <IconButton name="md-musical-notes-outline" />
@@ -27,7 +26,7 @@ export const KakaoHeader = () => {
 };
 
 const styles = StyleSheet.create({
-  headerContainer: {
+  container: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     paddingVertical: 10,
@@ -36,4 +35,12 @@ const styles = StyleSheet.create({
     fontSize: 22,
     fontWeight: 'bold',
   },
+  buttonContainer: {
+    flexDirection: 'row',
+  },
+  iconButtonContainer: {
+    paddingHorizontal: 6,
+  },
 });
+
+export default KakaoHeader;

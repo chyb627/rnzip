@@ -1,6 +1,16 @@
 import React from 'react';
-import { View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 
-export const Division = () => {
-  return <View style={{ width: '100%', height: 0.5, backgroundColor: 'lightgrey' }} />;
+const Division = () => {
+  return <View style={styles.container} />;
 };
+
+const styles = StyleSheet.create({
+  container: {
+    width: '100%',
+    height: 0.5,
+    backgroundColor: 'lightgrey',
+  },
+});
+
+export default Division;

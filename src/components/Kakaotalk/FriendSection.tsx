@@ -1,16 +1,15 @@
-/* eslint-disable react-native/no-inline-styles */
 import React from 'react';
-import { Text, TouchableOpacity, View } from 'react-native';
-import { Icon } from '../UI/Icons';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import Icon from '../ui/Icons';
 
-export const FriendSection: React.FC<{
+const FriendSection: React.FC<{
   freindProfileLen: number;
   isOpened: boolean;
   onPressArrow: () => void;
 }> = (props) => {
   return (
-    <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-      <Text style={{ color: 'grey' }}>친구 {props.freindProfileLen}</Text>
+    <View style={styles.container}>
+      <Text style={styles.textColor}>친구 {props.freindProfileLen}</Text>
 
       <TouchableOpacity onPress={props.onPressArrow}>
         <Icon
@@ -22,3 +21,15 @@ export const FriendSection: React.FC<{
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  textColor: {
+    color: 'grey',
+  },
+});
+
+export default FriendSection;

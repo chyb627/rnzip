@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useCallback, useEffect, useState } from 'react';
 import { useSetRecoilState } from 'recoil';
 import { atomLinkList } from '../../states/atomLinkList';
@@ -20,7 +21,9 @@ export const RecoilCustomPersist: React.FC<{
   }, []);
 
   useEffect(() => {
-    if (isLoaded) return;
+    if (isLoaded) {
+      return;
+    }
 
     loadData();
   });

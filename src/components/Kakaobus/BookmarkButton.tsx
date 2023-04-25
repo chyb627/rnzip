@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { StyleProp, TouchableOpacity, ViewStyle } from 'react-native';
 import { COLOR, DarkColor, LightClor } from '../../util/color';
-import { Icon } from '../UI/Icons';
+import Icon from '../ui/Icons';
 
 const useBookmark = (initialIsBookMarked: boolean) => {
   const [isBookMarked, setIsBookMarked] = useState(initialIsBookMarked);
@@ -13,7 +13,7 @@ const useBookmark = (initialIsBookMarked: boolean) => {
   };
 };
 
-export const BookmarkButton: React.FC<{
+const BookmarkButton: React.FC<{
   isBookmarked: boolean;
   size: number;
   onPress: () => void;
@@ -29,11 +29,9 @@ export const BookmarkButton: React.FC<{
         toggleIsBookMarked();
         onPress();
       }}>
-      <Icon
-        name="star"
-        size={size}
-        color={isBookMarked ? COLOR.YELLOW : NEWCOLOR.GRAY_1_GRAY_4}
-      />
+      <Icon name="star" size={size} color={isBookMarked ? COLOR.YELLOW : NEWCOLOR.GRAY_1_GRAY_4} />
     </TouchableOpacity>
   );
 };
+
+export default BookmarkButton;

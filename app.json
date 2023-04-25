@@ -1,8 +1,4 @@
 {
   "name": "rnzip",
-  "displayName": "rnzip",
-  "react-native-google-mobile-ads": {
-    "android_app_id": "GOOGLE_ADMOB_ANDROID_APP_ID",
-    "ios_app_id": "ca-app-pub-9648569608944296~2295676028"
-  }
+  "displayName": "rnzip"
 }

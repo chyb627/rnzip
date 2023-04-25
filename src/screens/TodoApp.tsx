@@ -1,4 +1,4 @@
-/* eslint-disable react-native/no-inline-styles */
+/* eslint-disable react/no-unstable-nested-components */
 import dayjs from 'dayjs';
 import React, { useRef } from 'react';
 import {
@@ -14,22 +14,19 @@ import {
   Alert,
 } from 'react-native';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
-import { Calendar } from '../components/TodoApp/Calendar';
 
 import { useCalendar } from '../hooks/TodoApp/use-calendar';
 import { TodoList, useTodoList } from '../hooks/TodoApp/use-todo-list';
-import {
-  getCalendarColumns,
-  ITEM_WIDTH,
-  statusBarHeight,
-  bottomSpace,
-} from '../util/util';
-import { Icon } from '../components/UI/Icons';
-import { Margin } from '../components/UI/Margin';
-import { AddTodoInput } from '../components/TodoApp/AddTodoInput';
+import { getCalendarColumns, ITEM_WIDTH } from '../util/util';
+import Icon from '../components/ui/Icons';
+import Spacer from '../components/ui/Spacer';
+import AddTodoInput from '../components/TodoApp/AddTodoInput';
+import Calendar from '../components/TodoApp/Calendar';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-export const TodoApp = () => {
+const TodoApp = () => {
   const now = dayjs();
+  const insets = useSafeAreaInsets();
 
   const {
     selectedDate,
@@ -73,19 +70,11 @@ export const TodoApp = () => {
         onPressDate={onPressDate}
       />
 
-      <Margin height={15} />
+      <Spacer space={15} />
 
-      <View
-        style={{
-          width: 4,
-          height: 4,
-          borderRadius: 4 / 2,
-          backgroundColor: '#a3a3a3',
-          alignSelf: 'center',
-        }}
-      />
+      <View style={styles.listHeaderComponent} />
 
-      <Margin height={15} />
+      <Spacer space={15} />
     </View>
   );
 
@@ -105,28 +94,10 @@ export const TodoApp = () => {
       ]);
     };
     return (
-      <Pressable
-        onPress={onPress}
-        onLongPress={onLongPress}
-        style={{
-          width: ITEM_WIDTH,
-          // backgroundColor: todo.id % 2 === 0 ? 'pink' : 'lightblue',
-          flexDirection: 'row',
-          alignSelf: 'center',
-          paddingVertical: 10,
-          paddingHorizontal: 5,
-          borderBottomWidth: 0.2,
-          borderColor: '#a6a6a6',
-        }}>
-        <Text style={{ flex: 1, fontSize: 14, color: '#595959' }}>
-          {todo.content}
-        </Text>
+      <Pressable onPress={onPress} onLongPress={onLongPress} style={styles.renderItemContainer}>
+        <Text style={styles.renderItemText}>{todo.content}</Text>
 
-        <Icon
-          name="checkmark"
-          size={16}
-          color={isSuccess ? '#595959' : '#bfbfbf'}
-        />
+        <Icon name="checkmark" size={16} color={isSuccess ? '#595959' : '#bfbfbf'} />
       </Pressable>
     );
   };
@@ -149,29 +120,20 @@ export const TodoApp = () => {
 
   return (
     <Pressable style={styles.container} onPress={Keyboard.dismiss}>
-      {/* <TouchableOpacity activeOpacity={1}>
-
-      </TouchableOpacity> */}
-
       <Image
         source={{
           uri: 'https://img.freepik.com/free-photo/white-crumpled-paper-texture-for-background_1373-159.jpg?w=1060&t=st=1667524235~exp=1667524835~hmac=8a3d988d6c33a32017e280768e1aa4037b1ec8078c98fe21f0ea2ef361aebf2c',
         }}
-        style={{
-          width: '100%',
-          height: '100%',
-          position: 'absolute',
-        }}
+        style={styles.backgroundImage}
       />
 
-      <KeyboardAvoidingView
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+      <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
         <>
           <FlatList
-            style={{ flex: 1 }}
+            style={styles.flatList}
             ref={flatListRef}
             data={filteredTodoList}
-            contentContainerStyle={{ paddingTop: statusBarHeight + 30 }}
+            contentContainerStyle={{ paddingTop: insets.top + 30 }}
             ListHeaderComponent={ListHeaderComponent}
             renderItem={renderItem}
           />
@@ -187,7 +149,7 @@ export const TodoApp = () => {
         </>
       </KeyboardAvoidingView>
 
-      <Margin height={bottomSpace} />
+      <Spacer space={insets.bottom} />
 
       <DateTimePickerModal
         isVisible={isDatePickerVisible}
@@ -206,4 +168,36 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  renderItemContainer: {
+    width: ITEM_WIDTH,
+    // backgroundColor: todo.id % 2 === 0 ? 'pink' : 'lightblue',
+    flexDirection: 'row',
+    alignSelf: 'center',
+    paddingVertical: 10,
+    paddingHorizontal: 5,
+    borderBottomWidth: 0.2,
+    borderColor: '#a6a6a6',
+  },
+  renderItemText: {
+    flex: 1,
+    fontSize: 14,
+    color: '#595959',
+  },
+  listHeaderComponent: {
+    width: 4,
+    height: 4,
+    borderRadius: 4 / 2,
+    backgroundColor: '#a3a3a3',
+    alignSelf: 'center',
+  },
+  backgroundImage: {
+    width: '100%',
+    height: '100%',
+    position: 'absolute',
+  },
+  flatList: {
+    flex: 1,
+  },
 });
+
+export default TodoApp;

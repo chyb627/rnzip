@@ -1,16 +1,12 @@
 import React, { useCallback } from 'react';
 import { StyleSheet, View } from 'react-native';
 import WebView from 'react-native-webview';
-import { Header } from '../../components/UI/Header/Header';
-import { Spacer } from '../../components/UI/Spacer';
+import Spacer from '../../components/ui/Spacer';
+import { Header } from '../../components/ui/Header/Header';
 import { useStackRoute } from '../../navigation/ScrapWeb/LinkStackNavigation';
-import {
-  useRootNavigation,
-  useRootRoute,
-} from '../../navigation/ScrapWeb/RootNavigation';
+import { useRootNavigation } from '../../navigation/ScrapWeb/RootNavigation';
 
-export const LinkDetailScreen = () => {
-  // const routes = useRootRoute();
+const LinkDetailScreen = () => {
   const routes = useStackRoute();
   const navigation = useRootNavigation();
 
@@ -30,10 +26,7 @@ export const LinkDetailScreen = () => {
         </Header.Group>
       </Header>
       {routes.params && (
-        <WebView
-          style={{ flex: 1 }}
-          source={{ uri: routes.params.item.link }}
-        />
+        <WebView style={styles.webView} source={{ uri: routes.params.item.link }} />
       )}
     </View>
   );
@@ -43,4 +36,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
+  webView: {
+    flex: 1,
+  },
 });
+
+export default LinkDetailScreen;

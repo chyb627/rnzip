@@ -1,5 +1,3 @@
-/* eslint-disable curly */
-
 import dayjs, { Dayjs } from 'dayjs';
 import { COLOR } from '../../util/color';
 
@@ -234,9 +232,13 @@ export const getSections = (buses: Buses[]) => {
   const rBuses = []; // data
 
   for (const bus of buses) {
-    if (bus.type === 'B') bBuses.push(bus);
-    else if (bus.type === 'G') gBuses.push(bus);
-    else if (bus.type === 'R') rBuses.push(bus);
+    if (bus.type === 'B') {
+      bBuses.push(bus);
+    } else if (bus.type === 'G') {
+      gBuses.push(bus);
+    } else if (bus.type === 'R') {
+      rBuses.push(bus);
+    }
   }
 
   const sections = [];
@@ -279,9 +281,15 @@ export const getRemainedTimeText = (now: Dayjs, arrivalTime: Dayjs) => {
   const remainMinute = dayjs(arrivalTime).diff(dayjs(now), 'minute');
   const remainSecond = dayjs(arrivalTime).diff(dayjs(now), 'second') % 60;
 
-  if (remainMinute <= 0 && remainSecond <= 0) return '도착 또는 출발';
-  if (remainMinute <= 0 && remainSecond < 30) return '곧 도착';
-  if (remainMinute <= 0) return `${remainSecond}초`;
+  if (remainMinute <= 0 && remainSecond <= 0) {
+    return '도착 또는 출발';
+  }
+  if (remainMinute <= 0 && remainSecond < 30) {
+    return '곧 도착';
+  }
+  if (remainMinute <= 0) {
+    return `${remainSecond}초`;
+  }
   return `${remainMinute}분 ${remainSecond}초`;
 };
 
@@ -290,11 +298,7 @@ export const getSeatStatusText = (type: string, numOfPassengers: number) => {
   switch (type) {
     case 'B':
     case 'G':
-      return numOfPassengers >= 30
-        ? '혼잡'
-        : numOfPassengers >= 20
-        ? '보통'
-        : '여유';
+      return numOfPassengers >= 30 ? '혼잡' : numOfPassengers >= 20 ? '보통' : '여유';
     case 'R':
       return `${MAX_SEAT_NUM_OF_R - numOfPassengers}석`;
     default:

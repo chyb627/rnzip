@@ -1,6 +1,5 @@
-/* eslint-disable react-native/no-inline-styles */
 import React from 'react';
-import { SafeAreaView, Text, TouchableOpacity, View } from 'react-native';
+import { SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import styled from 'styled-components/native';
 import { useCalculator } from '../hooks/Calculator/use-calculator';
 
@@ -18,6 +17,7 @@ const Button: React.FC<{
   type: string;
   isSelected?: boolean;
 }> = ({ text, onPress, flex, type, isSelected }) => {
+  const isSelectedStyle = isSelected ? isSelectedStyles : styles;
   const backgroundColor =
     type === 'reset'
       ? COLOR.RESET
@@ -30,16 +30,14 @@ const Button: React.FC<{
   return (
     <TouchableOpacity
       onPress={onPress}
-      style={{
-        flex,
-        backgroundColor,
-        justifyContent: 'center',
-        alignItems: 'center',
-        height: 50,
-        borderWidth: isSelected ? 1 : 0.2,
-        borderColor: '#000',
-      }}>
-      <Text style={{ color: 'white', fontSize: 25 }}>{text}</Text>
+      style={[
+        isSelectedStyle.buttonContainer,
+        {
+          flex,
+          backgroundColor,
+        },
+      ]}>
+      <Text style={styles.buttonText}>{text}</Text>
     </TouchableOpacity>
   );
 };
@@ -56,40 +54,21 @@ const InputContainer = styled.View`
   padding: 10px 5px; // (top, bottom)-vertical (right, left)-holizontal
 `;
 
-export const Calculator = () => {
-  const {
-    input,
-    currentOperator,
-    hasInput,
-    onPressNum,
-    onPressOperator,
-    onPressReset,
-  } = useCalculator();
+const Calculator = () => {
+  const { input, currentOperator, hasInput, onPressNum, onPressOperator, onPressReset } =
+    useCalculator();
 
   return (
-    <SafeAreaView
-      style={{
-        flex: 1,
-        backgroundColor: '#fff',
-        alignItems: 'center',
-        justifyContent: 'center',
-      }}>
-      <View style={{ flex: 1, width: 250, justifyContent: 'center' }}>
+    <SafeAreaView style={styles.container}>
+      <View style={styles.subContainer}>
         {/* 결과 */}
         <InputContainer>
-          <Text style={{ color: 'white', fontSize: 35, textAlign: 'right' }}>
-            {input}
-          </Text>
+          <Text style={styles.inputText}>{input}</Text>
         </InputContainer>
 
         {/* [AC ~ /] */}
         <ButtonContainer>
-          <Button
-            type="reset"
-            text={hasInput ? 'C' : 'AC'}
-            onPress={onPressReset}
-            flex={3}
-          />
+          <Button type="reset" text={hasInput ? 'C' : 'AC'} onPress={onPressReset} flex={3} />
           <Button
             type="operator"
             text="/"
@@ -163,14 +142,45 @@ export const Calculator = () => {
         {/* [0 ~ =] */}
         <ButtonContainer>
           <Button type="num" text="0" onPress={() => onPressNum(0)} flex={3} />
-          <Button
-            type="operator"
-            text="="
-            onPress={() => onPressOperator('=')}
-            flex={1}
-          />
+          <Button type="operator" text="=" onPress={() => onPressOperator('=')} flex={1} />
         </ButtonContainer>
       </View>
     </SafeAreaView>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  subContainer: {
+    flex: 1,
+    width: 250,
+    justifyContent: 'center',
+  },
+  inputText: {
+    color: 'white',
+    fontSize: 35,
+    textAlign: 'right',
+  },
+  buttonContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: 50,
+    borderColor: '#000',
+    borderWidth: 0.2,
+  },
+  buttonText: {
+    color: 'white',
+    fontSize: 25,
+  },
+});
+
+const isSelectedStyles = {
+  buttonContainer: [styles.buttonContainer, { borderWidth: 1 }],
+};
+
+export default Calculator;

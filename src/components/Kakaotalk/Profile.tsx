@@ -1,19 +1,19 @@
-/* eslint-disable react-native/no-inline-styles */
 import React from 'react';
-import { Text, View } from 'react-native';
-import { Margin } from '../UI/Margin';
-import { RemoteImage } from '../UI/RemoteImage';
+import { StyleSheet, Text, View } from 'react-native';
+import Spacer from '../ui/Spacer';
+import RemoteImage from '../ui/RemoteImage';
 
-export const Profile: React.FC<{
+const Profile: React.FC<{
   uri: string;
   name: string;
   introduction: string;
   isMe: boolean;
 }> = (props) => {
   const size = props.isMe ? 50 : 40;
+  const isMeStyle = props.isMe ? isMeStyles : styles;
 
   return (
-    <View style={{ flexDirection: 'row' }}>
+    <View style={styles.container}>
       <RemoteImage
         style={{ borderRadius: size * 0.4 }}
         url={props.uri}
@@ -21,21 +21,41 @@ export const Profile: React.FC<{
         height={size}
       />
 
-      <View style={{ justifyContent: 'center', marginLeft: 10 }}>
-        <Text
-          style={{ fontWeight: props.isMe ? 'bold' : undefined, fontSize: props.isMe ? 16 : 15 }}>
-          {props.name}
-        </Text>
+      <View style={styles.itemContaier}>
+        <Text style={isMeStyle.nameText}>{props.name}</Text>
 
         {!!props.introduction && (
           <View>
-            <Margin height={props.isMe ? 6 : 2} />
-            <Text style={{ fontSize: props.isMe ? 12 : 11, color: 'grey' }}>
-              {props.introduction}
-            </Text>
+            <Spacer space={props.isMe ? 6 : 2} />
+            <Text style={isMeStyle.introText}>{props.introduction}</Text>
           </View>
         )}
       </View>
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flexDirection: 'row',
+  },
+  itemContaier: {
+    justifyContent: 'center',
+    marginLeft: 10,
+  },
+  nameText: {
+    fontWeight: 'normal',
+    fontSize: 15,
+  },
+  introText: {
+    fontSize: 11,
+    color: 'grey',
+  },
+});
+
+const isMeStyles = {
+  nameText: [styles.nameText, { fontWeight: 'bold' as const, fontSize: 16 }],
+  introText: [styles.introText, { fontSize: 12 }],
+};
+
+export default Profile;

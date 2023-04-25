@@ -56,7 +56,9 @@ export const useTodoList = (selectedDate: Dayjs) => {
 
   const toggleTodo = (todoId: number) => {
     const newTodoList = todoList.map((todo) => {
-      if (todo.id !== todoId) return todo;
+      if (todo.id !== todoId) {
+        return todo;
+      }
       return {
         ...todo,
         isSuccess: !todo.isSuccess,

@@ -1,30 +1,25 @@
-import dayjs, { Dayjs } from 'dayjs';
+import dayjs from 'dayjs';
 import React, { useCallback, useMemo } from 'react';
-import { FlatList, SectionList, StyleSheet, View } from 'react-native';
+import { SectionList, StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useRecoilValue } from 'recoil';
-import { Button } from '../../components/UI/Button';
-import { Header } from '../../components/UI/Header/Header';
-import { Icon } from '../../components/UI/Icons';
-import { Spacer } from '../../components/UI/Spacer';
-import { Typography } from '../../components/UI/Typography';
 import { useStackNavigation } from '../../navigation/ScrapWeb/LinkStackNavigation';
 import { useRootNavigation } from '../../navigation/ScrapWeb/RootNavigation';
 import { atomLinkList } from '../../states/atomLinkList';
+import { Header } from '../../components/ui/Header/Header';
+import Button from '../../components/ui/Button';
+import Typography from '../../components/ui/Typography';
+import Spacer from '../../components/ui/Spacer';
+import Icon from '../../components/ui/Icons';
 
-export const LinkListSceen = () => {
+const LinkListSceen = () => {
   const navigation = useRootNavigation();
   const stackNavigation = useStackNavigation();
   const safeAreaInset = useSafeAreaInsets();
   const data = useRecoilValue(atomLinkList);
 
   const onPressListItem = useCallback(
-    (item: {
-      title: string;
-      image: string;
-      link: string;
-      createdAt: string;
-    }) => {
+    (item: { title: string; image: string; link: string; createdAt: string }) => {
       stackNavigation.navigate('LinkDetail', { item });
     },
     [stackNavigation],
@@ -50,7 +45,9 @@ export const LinkListSceen = () => {
       return dayjs(dateItem).format('YYYY.MM.DD hh:mm');
     };
 
-    if (!data.list) return [];
+    if (!data.list) {
+      return [];
+    }
 
     data.list.forEach((item) => {
       const keyName = makeDateString(item.createdAt);
@@ -79,7 +76,7 @@ export const LinkListSceen = () => {
       </Header>
 
       <SectionList
-        style={{ flex: 1 }}
+        style={styles.sectionList}
         sections={sectionData}
         renderItem={({ item }) => {
           return (
@@ -103,12 +100,7 @@ export const LinkListSceen = () => {
         renderSectionHeader={({ section }) => {
           // console.log('section::', section);
           return (
-            <View
-              style={{
-                paddingHorizontal: 12,
-                paddingVertical: 4,
-                backgroundColor: '#fff',
-              }}>
+            <View style={styles.renderSectionHeader}>
               <Typography color="gray" fontSize={12}>
                 {section.title}
               </Typography>
@@ -118,21 +110,14 @@ export const LinkListSceen = () => {
       />
 
       <View
-        style={{
-          position: 'absolute',
-          right: 24,
-          bottom: 24 + safeAreaInset.bottom,
-        }}>
+        style={[
+          styles.addButtonContainer,
+          {
+            bottom: 24 + safeAreaInset.bottom,
+          },
+        ]}>
         <Button onPress={onPressAddButton}>
-          <View
-            style={{
-              width: 52,
-              height: 52,
-              borderRadius: 26,
-              alignItems: 'center',
-              justifyContent: 'center',
-              backgroundColor: '#000',
-            }}>
+          <View style={styles.addButtonIconContainer}>
             <Icon name="add" color="#fff" size={32} />
           </View>
         </Button>
@@ -145,4 +130,26 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
+  sectionList: {
+    flex: 1,
+  },
+  renderSectionHeader: {
+    paddingHorizontal: 12,
+    paddingVertical: 4,
+    backgroundColor: '#fff',
+  },
+  addButtonContainer: {
+    position: 'absolute',
+    right: 24,
+  },
+  addButtonIconContainer: {
+    width: 52,
+    height: 52,
+    borderRadius: 26,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#000',
+  },
 });
+
+export default LinkListSceen;

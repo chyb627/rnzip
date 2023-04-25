@@ -4,8 +4,8 @@ import {
   NativeStackNavigationProp,
 } from '@react-navigation/native-stack';
 import React from 'react';
-import { LinkDetailScreen } from '../../screens/ScrapWeb/LinkDetailScreen';
-import { LinkListSceen } from '../../screens/ScrapWeb/LinkListSceen';
+import LinkDetailScreen from '../../screens/ScrapWeb/LinkDetailScreen';
+import LinkListSceen from '../../screens/ScrapWeb/LinkListSceen';
 
 export type TypeStackScreenParams = {
   LinkList: undefined;
@@ -21,7 +21,7 @@ export type TypeStackScreenParams = {
 
 const Stack = createNativeStackNavigator<TypeStackScreenParams>();
 
-export const LinkStackNavigation = () => {
+const LinkStackNavigation = () => {
   return (
     <Stack.Navigator
       initialRouteName="LinkList"
@@ -35,11 +35,10 @@ export const LinkStackNavigation = () => {
   );
 };
 
-export const useStackNavigation = <
-  RouteName extends keyof TypeStackScreenParams,
->() =>
+export const useStackNavigation = <RouteName extends keyof TypeStackScreenParams>() =>
   useNavigation<NativeStackNavigationProp<TypeStackScreenParams, RouteName>>();
 
-export const useStackRoute = <
-  RouteName extends keyof TypeStackScreenParams,
->() => useRoute<RouteProp<TypeStackScreenParams, RouteName>>();
+export const useStackRoute = <RouteName extends keyof TypeStackScreenParams>() =>
+  useRoute<RouteProp<TypeStackScreenParams, RouteName>>();
+
+export default LinkStackNavigation;

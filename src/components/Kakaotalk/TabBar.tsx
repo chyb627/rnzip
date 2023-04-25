@@ -1,10 +1,7 @@
-/* eslint-disable react-native/no-inline-styles */
 import React from 'react';
-import { TouchableOpacity, View } from 'react-native';
-import { getBottomSpace } from 'react-native-iphone-x-helper';
-import { Icon } from '../UI/Icons';
-
-const bottomSpace = getBottomSpace();
+import { StyleSheet, TouchableOpacity, View } from 'react-native';
+import Icon from '../ui/Icons';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const TabButton: React.FC<{
   isSelected: boolean;
@@ -13,36 +10,20 @@ const TabButton: React.FC<{
   inactiveIconName: string;
 }> = ({ isSelected, onPress, activeIconName, inactiveIconName }) => {
   return (
-    <TouchableOpacity
-      onPress={onPress}
-      style={{
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        paddingVertical: 10,
-      }}>
-      <Icon
-        name={isSelected ? activeIconName : inactiveIconName}
-        size={24}
-        color="#000"
-      />
+    <TouchableOpacity onPress={onPress} style={styles.tabButtonContainer}>
+      <Icon name={isSelected ? activeIconName : inactiveIconName} size={24} color="#000" />
     </TouchableOpacity>
   );
 };
 
-export const TabBar: React.FC<{
+const TabBar: React.FC<{
   selectedTabIdx: number;
   setSelectedTabIdx: React.Dispatch<React.SetStateAction<number>>;
 }> = (props) => {
+  const insets = useSafeAreaInsets();
+
   return (
-    <View
-      style={{
-        width: '100%',
-        flexDirection: 'row',
-        paddingBottom: bottomSpace,
-        borderTopWidth: 0.5,
-        borderTopColor: 'grey',
-      }}>
+    <View style={[styles.container, { paddingBottom: insets.bottom }]}>
       <TabButton
         isSelected={props.selectedTabIdx === 0}
         onPress={() => props.setSelectedTabIdx(0)}
@@ -70,3 +51,20 @@ export const TabBar: React.FC<{
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    width: '100%',
+    flexDirection: 'row',
+    borderTopWidth: 0.5,
+    borderTopColor: 'grey',
+  },
+  tabButtonContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingVertical: 10,
+  },
+});
+
+export default TabBar;

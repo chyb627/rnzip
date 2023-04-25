@@ -1,48 +1,42 @@
-import React, { useEffect } from 'react';
-import {
-  FlatList,
-  LogBox,
-  Platform,
-  ScrollView,
-  Text,
-  View,
-  StyleSheet,
-  UIManager,
-} from 'react-native';
+import React from 'react';
+import { FlatList, ScrollView, Text, View, StyleSheet, TouchableOpacity } from 'react-native';
 import {
   createNativeStackNavigator,
   NativeStackNavigationProp,
 } from '@react-navigation/native-stack';
 import { NavigationContainer } from '@react-navigation/native';
-import { RectButton } from 'react-native-gesture-handler';
-import SplashScreen from 'react-native-splash-screen';
+import { Provider } from 'react-redux';
+import store from './src/store';
 
-import { Kakaotalk } from './src/screens/Kakaotalk';
-import { Calculator } from './src/screens/Calculator';
-import { TodoApp } from './src/screens/TodoApp';
-import { Kakaobus } from './src/screens/Kakaobus';
-import { Translation } from './src/screens/Translation';
-import { Lotto } from './src/screens/Lotto';
-import { ScrapWeb } from './src/screens/ScrapWeb';
-import { NewsScrap } from './src/screens/NewsScrap';
-import { Instagram } from './src/screens/Instagram';
-import { TailwindCss } from './src/screens/TailwindCss';
-
-import 'babel-plugin-tailwind-rn/dist/useTailwind';
-LogBox.ignoreLogs(['Calling `getNode()`']);
-
-if (Platform.OS === 'android') {
-  if (UIManager.setLayoutAnimationEnabledExperimental) {
-    UIManager.setLayoutAnimationEnabledExperimental(true);
-  }
-}
+import Kakaotalk from './src/screens/Kakaotalk';
+import Calculator from './src/screens/Calculator';
+import TodoApp from './src/screens/TodoApp';
+import Kakaobus from './src/screens/Kakaobus';
+import Translation from './src/screens/Translation';
+import ScrapWeb from './src/screens/ScrapWeb';
+import SnowBackground from './src/screens/SnowBackground';
+import PageHeader from './src/screens/PageHeader';
+import Rocket from './src/screens/Rocket';
+import SkeletonUi from './src/screens/SkeletonUi';
+import Lottie from './src/screens/Lottie';
+import Collapse from './src/screens/Collapse';
+import CardWallet from './src/screens/CardWallet';
+import ModalScreen from './src/screens/ModalScreen';
+import InfinityScroll from './src/screens/InfinityScroll';
+import AnimationScreen from './src/screens/AnimationScreen';
+import ReanimatedScreen from './src/screens/ReanimatedScreen';
+import Graffiti from './src/screens/Graffiti';
 
 type Screens = Record<string, { screen: React.ComponentType; title?: string }>;
 
 const SCREENS: Screens = {
-  KaKaoTalk: {
+  Graffiti: {
+    screen: Graffiti,
+    title: 'Graffiti',
+  },
+  Kakaotalk: {
     screen: Kakaotalk,
-    title: 'KakaoTalk',
+    title: 'Kakaotalk',
   },
   Calculator: {
     screen: Calculator,
@@ -60,25 +54,53 @@ const SCREENS: Screens = {
     screen: Translation,
     title: 'Translation',
   },
-  Lotto: {
-    screen: Lotto,
-    title: 'Lotto',
-  },
   ScrapWeb: {
     screen: ScrapWeb,
     title: 'ScrapWeb',
   },
-  NewsScrap: {
-    screen: NewsScrap,
-    title: 'NewsScrap',
+  SnowBackground: {
+    screen: SnowBackground,
+    title: 'SnowBackground',
   },
-  Instagram: {
-    screen: Instagram,
-    title: 'Instagram',
+  PageHeader: {
+    screen: PageHeader,
+    title: 'PageHeader',
   },
-  TailwindCss: {
-    screen: TailwindCss,
-    title: 'TailwindCss',
+  Rocket: {
+    screen: Rocket,
+    title: 'Rocket',
+  },
+  SkeletonUi: {
+    screen: SkeletonUi,
+    title: 'SkeletonUi',
+  },
+  Lottie: {
+    screen: Lottie,
+    title: 'Lottie',
+  },
+  Collapse: {
+    screen: Collapse,
+    title: 'Collapse',
+  },
+  CardWallet: {
+    screen: CardWallet,
+    title: 'CardWallet',
+  },
+  ModalScreen: {
+    screen: ModalScreen,
+    title: 'ModalScreen',
+  },
+  InfinityScroll: {
+    screen: InfinityScroll,
+    title: 'InfinityScroll',
+  },
+  AnimationScreen: {
+    screen: AnimationScreen,
+    title: 'Animation',
+  },
+  ReanimatedScreen: {
+    screen: ReanimatedScreen,
+    title: 'Reanimated Screen',
   },
 };
 
@@ -123,38 +145,40 @@ export function MainScreenItem({
 }: MainScreenItemProps): React.ReactElement {
   const { key } = item;
   return (
-    <RectButton style={styles.button} onPress={() => onPressItem(item)}>
+    <TouchableOpacity style={styles.button} onPress={() => onPressItem(item)}>
       <Text style={styles.buttonText}>{screens[key].title || key}</Text>
-    </RectButton>
+    </TouchableOpacity>
   );
 }
 
 const Stack = createNativeStackNavigator();
 
-const rnzip = () => (
-  <Stack.Navigator>
-    <Stack.Screen
-      name="Home"
-      options={{ title: '😎 Youngbin RN Examples' }}
-      children={(props) => <MainScreen {...props} />}
-    />
-    {Object.keys(SCREENS).map((name) => (
-      <Stack.Screen
-        key={name}
-        name={name}
-        getComponent={() => SCREENS[name].screen}
-        options={{ title: SCREENS[name].title || name, headerShown: false }}
-      />
-    ))}
-  </Stack.Navigator>
-);
-
 function App(): React.ReactElement {
-  useEffect(() => {
-    SplashScreen.hide();
-  }, []);
-
-  return <NavigationContainer>{rnzip()}</NavigationContainer>;
+  return (
+    <Provider store={store}>
+      <NavigationContainer>
+        <Stack.Navigator>
+          <Stack.Screen
+            name="Home"
+            options={{ title: '😎 Youngbin RN Examples', headerTitleAlign: 'center' }}
+            children={(props) => <MainScreen {...props} />}
+          />
+          {Object.keys(SCREENS).map((name) => (
+            <Stack.Screen
+              key={name}
+              name={name}
+              getComponent={() => SCREENS[name].screen}
+              options={{
+                title: SCREENS[name].title || name,
+                headerTitleAlign: 'center',
+                headerShown: false,
+              }}
+            />
+          ))}
+        </Stack.Navigator>
+      </NavigationContainer>
+    </Provider>
+  );
 }
 
 export const styles = StyleSheet.create({
@@ -167,6 +191,7 @@ export const styles = StyleSheet.create({
   },
   buttonText: {
     backgroundColor: 'transparent',
+    color: '#000',
   },
   button: {
     flex: 1,

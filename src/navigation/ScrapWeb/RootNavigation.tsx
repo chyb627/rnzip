@@ -9,11 +9,8 @@ import {
   NativeStackNavigationProp,
 } from '@react-navigation/native-stack';
 import React from 'react';
-import { AddLinkScreen } from '../../screens/ScrapWeb/AddLinkScreen';
-import {
-  LinkStackNavigation,
-  TypeStackScreenParams,
-} from './LinkStackNavigation';
+import LinkStackNavigation, { TypeStackScreenParams } from './LinkStackNavigation';
+import AddLinkScreen from '../../screens/ScrapWeb/AddLinkScreen';
 
 type ScreenParams = {
   LinkStack: NavigatorScreenParams<TypeStackScreenParams>;
@@ -22,7 +19,7 @@ type ScreenParams = {
 
 const Stack = createNativeStackNavigator<ScreenParams>();
 
-export const RootNavigation: React.FC = () => {
+const RootNavigation: React.FC = () => {
   return (
     <Stack.Navigator
       initialRouteName="LinkStack"
@@ -41,3 +38,5 @@ export const useRootNavigation = <RouteName extends keyof ScreenParams>() =>
 
 export const useRootRoute = <RouteName extends keyof ScreenParams>() =>
   useRoute<RouteProp<ScreenParams, RouteName>>();
+
+export default RootNavigation;

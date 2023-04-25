@@ -1,4 +1,4 @@
-import { atom, AtomEffect } from 'recoil';
+import { atom } from 'recoil';
 import { getItem, removeItem, setItem } from '../util/AsyncStorageUtils';
 
 export type AtomLinkList = {

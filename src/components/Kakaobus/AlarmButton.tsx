@@ -1,9 +1,9 @@
 import React from 'react';
 import { TouchableOpacity } from 'react-native';
 import { DarkColor, LightClor } from '../../util/color';
-import { Icon } from '../UI/Icons';
+import Icon from '../ui/Icons';
 
-export const AlarmButton: React.FC<{
+const AlarmButton: React.FC<{
   onPress: () => void;
   style?: {
     paddingHorizontal?: number;
@@ -16,3 +16,5 @@ export const AlarmButton: React.FC<{
     </TouchableOpacity>
   );
 };
+
+export default AlarmButton;

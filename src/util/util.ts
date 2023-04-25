@@ -2,20 +2,9 @@
 
 import dayjs, { Dayjs } from 'dayjs';
 
-import {
-  getStatusBarHeight,
-  getBottomSpace,
-} from 'react-native-iphone-x-helper';
-
-export const statusBarHeight = getStatusBarHeight(true);
-export const bottomSpace = getBottomSpace();
 export const ITEM_WIDTH = 220;
 
-export const fillEmptyColumns = (
-  columns: Dayjs[],
-  start: Dayjs,
-  end: Dayjs,
-): Dayjs[] => {
+export const fillEmptyColumns = (columns: Dayjs[], start: Dayjs, end: Dayjs): Dayjs[] => {
   const filledColumns = columns.slice(0);
 
   // 1. 첫날 이전 공백 채우기
