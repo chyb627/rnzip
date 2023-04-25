@@ -26,6 +26,7 @@ import InfinityScroll from './src/screens/InfinityScroll';
 import AnimationScreen from './src/screens/AnimationScreen';
 import ReanimatedScreen from './src/screens/ReanimatedScreen';
 import Graffiti from './src/screens/Graffiti';
+import PanResponderInfo from './src/screens/PanResponderInfo';
 
 type Screens = Record<string, { screen: React.ComponentType; title?: string }>;
 
@@ -33,6 +34,10 @@ const SCREENS: Screens = {
   Graffiti: {
     screen: Graffiti,
     title: 'Graffiti',
+  },
+  PanResponderInfo: {
+    screen: PanResponderInfo,
+    title: 'PanResponderInfo',
   },
   Kakaotalk: {
     screen: Kakaotalk,
