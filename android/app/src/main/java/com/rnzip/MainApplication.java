@@ -1,4 +1,4 @@
-package com.rnzip;
+package com.chabiri.rnzip;
 
 import android.app.Application;
 import com.facebook.react.PackageList;
