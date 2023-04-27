@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "925348430499",
+    "project_id": "rnzip-6fed6",
+    "storage_bucket": "rnzip-6fed6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:925348430499:android:77a513787154a99a2d7516",
+        "android_client_info": {
+          "package_name": "com.chabiri.rnzip"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "925348430499-nrf1p4d3dnuvsqv7nvb1frv592enm7bp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBbVu63KN5nBJ5zdu1VS-5Qa2tdes0xJq4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "925348430499-5vqviufuo7tsrap5qq1227821j6h9j25.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "925348430499-a3o5v1fuff2crakjqnksb4rrfreab7l6.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.chabiri.rnzip"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

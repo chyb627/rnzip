@@ -30,10 +30,15 @@ import PanResponderInfo from './src/screens/PanResponderInfo';
 import PanResponderBall from './src/screens/PanResponderBall';
 import PanResponderBannerSlider from './src/screens/PanResponderBannerSlider';
 import PanResponderFontSlider from './src/screens/PanResponderFontSlider';
+import LoveDog from './src/screens/LoveDog';
 
 type Screens = Record<string, { screen: React.ComponentType; title?: string }>;
 
 const SCREENS: Screens = {
+  LoveDog: {
+    screen: LoveDog,
+    title: 'LoveDog',
+  },
   Graffiti: {
     screen: Graffiti,
     title: 'Graffiti',

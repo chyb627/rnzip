@@ -52,7 +52,7 @@ const PanResponderBannerSlider = () => {
     },
   });
 
-  const onButtonNavigation = (index) => {
+  const onButtonNavigation = (index: number) => {
     setFocus(index);
     Animated.timing(bannerAnim, {
       toValue: -index * width,

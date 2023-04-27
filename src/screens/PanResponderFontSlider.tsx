@@ -50,19 +50,17 @@ const PanResponderFontSlider = () => {
         toValue,
         friction: 7,
         tension: 50,
-        duration: 100,
         useNativeDriver: true,
       }).start();
     },
   });
 
-  const onPress = (index) => {
+  const onPress = (index: number) => {
     setStep(index);
     Animated.spring(circleAnim, {
       toValue: index * BOX,
       friction: 7,
       tension: 50,
-      duration: 100,
       useNativeDriver: true,
     }).start();
   };
