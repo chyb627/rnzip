@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unstable-nested-components */
 import { BottomTabNavigationProp, createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import React from 'react';
 import MainScreen from '../../screens/LoveDog/MainScreen';
@@ -27,7 +28,7 @@ const BottomTabNavigation = () => {
         return {
           headerShown: false,
           tabBarIcon: ({ color }) => {
-            return <TabIcon navigation={false} iconName={routeIconName} iconColor={color} />;
+            return <TabIcon visibleBadge={false} iconName={routeIconName} iconColor={color} />;
           },
         };
       }}>

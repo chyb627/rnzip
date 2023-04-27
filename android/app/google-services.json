@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "925348430499-kbg32l13gedsv8u4dsps270uasa3enj1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.chabiri.rnzip",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
           "client_id": "925348430499-nrf1p4d3dnuvsqv7nvb1frv592enm7bp.apps.googleusercontent.com",
           "client_type": 3
         }

@@ -26,11 +26,11 @@ yarn add @react-native-firebase/crashlytics
 10. 터미널 -> open ~/.zshrc 입력
 11. 다음과 같이 입력
 
-  ```js
-  export ANDROID_HOME=$HOME/Library/Android/sdk
-  export PATH=$PATH:$ANDROID_HOME/emulator
-  export PATH=$PATH:$ANDROID_HOME/platform-tools
-  ```
+```js
+export ANDROID_HOME=$HOME/Library/Android/sdk
+export PATH=$PATH:$ANDROID_HOME/emulator
+export PATH=$PATH:$ANDROID_HOME/platform-tools
+```
 
 12. 터미널 -> touch ~/.zshrc 입력
 13. adb 입력 -> 잘나오면 제대로 설치된 것
@@ -76,11 +76,13 @@ yarn add @react-native-firebase/crashlytics
 - 안드로이드의 4구성 요소 (activity, service, receiver, content provider)
 
 - Intent란,
+
   1. 어떠한 Activity를 호출할 때 사용하는 것
   2. 매개변수와 함께 보내는것
   3. navigation을 이동했던것과 비슷한 형태
 
 - Activity Life-cycle
+
   - onCreate -> onResume -> onPause -> onDestroy
 
 - Intent-Filter란,
@@ -115,12 +117,14 @@ yarn add @react-native-firebase/crashlytics
 - 특정 리소스를 필요로 할 때 사용자에게 허용 할것인지 물어보는 것
 
 - 권한 획득 과정
+
   - IOS
+
     1. 해당 기기에서 사용 가능한지 확인해서 불가능하면 권한체크의값이 unavailable 으로 나오게된다.
     2. 해당 기기에서 가능하면 이 후 권한요청이 가능한지에 대해 체크한다. ios에서는 최초 1회를 물어보게 되면 앱을 삭제하고 다시설치하지 않는이상 다시 물어볼 수 있는 수단이 없음. 권한요청이 가능한 상태이면 denyde 이고, 불가능하면 blocked, limited, granted 상태이다.
     3. 권한요청이 denyde 상태이면 유저에게 권한요청이 가능하고, 요청을 한뒤에는 결과에 따라서 granted(수락), blocked(거절)로 나뉘게 된다.
     4. limited상태는 주로 사진에 대한 권한을 얻을때 나오게 되는데 모든 사진이 아닌 제한된 사진의 권한을 얻을 때 이다.
-  
+
   - Android
     1. 전체적인 흐름은 ios와 비슷하지만 1가지 다른 부분이 있다. 요청하고 난뒤 안드로이드는 한번더 요청할 수 있도록 열어놓을 수 있다.
     2. 다시묻지않기, 이번만허용등의 한번더 요청할 수 있도록 열어놓을 수 있다.
@@ -147,3 +151,8 @@ npx uri-scheme open "scheme://path" --android
 1. 변경 원하는 라이브러리 node_modules에 찾아가서 변경
 2. yarn patch-package babel-plugin-tailwind-rn
 3. patch-package 파일 생성됨
+
+## goo
+
+- cd android && ./gradlew signingReport && cd .. 로 SHA-1, SHA-256 값 알아내기.
+- Firebase에 디지털 지문 추가해주기

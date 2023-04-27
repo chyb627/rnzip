@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, TextInput, StyleSheet } from 'react-native';
+import { View, TextInput, StyleSheet, TextInputProps } from 'react-native';
 
 const SingleLineInput: React.FC<{
   value: string;
@@ -7,6 +7,7 @@ const SingleLineInput: React.FC<{
   placeholder: string;
   onSubmitEditing: () => void;
   fontSize?: number;
+  keyboardType?: TextInputProps['keyboardType'];
 }> = (props) => {
   const [focused, setFocused] = useState(false);
   const borderColor = { borderColor: focused ? 'black' : 'gray' };
@@ -17,6 +18,7 @@ const SingleLineInput: React.FC<{
         autoCorrect={false}
         autoCapitalize="none"
         value={props.value}
+        keyboardType={props.keyboardType}
         onChangeText={props.onChangeText}
         placeholder={props.placeholder}
         onSubmitEditing={props.onSubmitEditing}
