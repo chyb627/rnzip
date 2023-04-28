@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useRef, useState } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import ImageCropPicker from 'react-native-image-crop-picker';
@@ -12,12 +12,14 @@ import SingleLineInput from '../../components/ui/SingleLineInput';
 import Spacer from '../../components/ui/Spacer';
 import RemoteImage from '../../components/ui/RemoteImage';
 import Icon from '../../components/ui/Icons';
+import ActionSheet from 'react-native-actionsheet';
 
 const InputNameScreen = () => {
   const rootNavigation = useRootStackNavigation<'Signup'>();
   const navigation = useSignupNavigation<'InputName'>();
   const routes = useSignupRoute<'InputName'>();
   const safeArea = useSafeAreaInsets();
+  const actionSheetRef = useRef<ActionSheet>(null);
 
   const [selectedPhoto, setSelectedPhoto] = useState<{ uri: string } | null>(null);
   const [profileImage] = useState(routes.params.preInput.profileImage);
@@ -32,12 +34,7 @@ const InputNameScreen = () => {
   }, [rootNavigation]);
 
   const onPressProfileImage = useCallback(async () => {
-    const photoResult = await ImageCropPicker.openPicker({
-      width: 300,
-      height: 300,
-      cropping: true,
-    });
-    setSelectedPhoto({ uri: photoResult.path });
+    actionSheetRef.current?.show();
   }, []);
 
   return (
@@ -99,6 +96,22 @@ const InputNameScreen = () => {
           <Spacer space={safeArea.bottom + 12} />
         </View>
       </Button>
+
+      <ActionSheet
+        ref={actionSheetRef}
+        options={['사진 촬영하여 선택', '갤러리에서 선택', '취소']}
+        cancelButtonIndex={2}
+        onPress={async (index) => {
+          if (index === 1) {
+            const photoResult = await ImageCropPicker.openPicker({
+              width: 300,
+              height: 300,
+              cropping: true,
+            });
+            setSelectedPhoto({ uri: photoResult.path });
+          }
+        }}
+      />
     </View>
   );
 };
