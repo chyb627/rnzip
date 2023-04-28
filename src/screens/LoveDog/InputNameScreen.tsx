@@ -1,6 +1,7 @@
 import React, { useCallback, useMemo, useState } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import ImageCropPicker from 'react-native-image-crop-picker';
 
 import { Header } from '../../components/ui/Header/Header';
 import Button from '../../components/ui/Button';
@@ -18,6 +19,7 @@ const InputNameScreen = () => {
   const routes = useSignupRoute<'InputName'>();
   const safeArea = useSafeAreaInsets();
 
+  const [selectedPhoto, setSelectedPhoto] = useState<{ uri: string } | null>(null);
   const [profileImage] = useState(routes.params.preInput.profileImage);
   const [inputName, setInputName] = useState<string>(routes.params.preInput.name);
   const isValid = useMemo(() => {
@@ -29,7 +31,14 @@ const InputNameScreen = () => {
     rootNavigation.replace('Main');
   }, [rootNavigation]);
 
-  const onPressProfileImage = useCallback(() => {}, []);
+  const onPressProfileImage = useCallback(async () => {
+    const photoResult = await ImageCropPicker.openPicker({
+      width: 300,
+      height: 300,
+      cropping: true,
+    });
+    setSelectedPhoto({ uri: photoResult.path });
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -49,7 +58,7 @@ const InputNameScreen = () => {
                 <RemoteImage
                   width={100}
                   height={100}
-                  url={profileImage}
+                  url={selectedPhoto !== null ? selectedPhoto.uri : profileImage}
                   style={styles.remoteImage}
                 />
 
