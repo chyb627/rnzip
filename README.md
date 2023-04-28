@@ -152,7 +152,86 @@ npx uri-scheme open "scheme://path" --android
 2. yarn patch-package babel-plugin-tailwind-rn
 3. patch-package 파일 생성됨
 
-## goo
+## google signin
 
 - cd android && ./gradlew signingReport && cd .. 로 SHA-1, SHA-256 값 알아내기.
 - Firebase에 디지털 지문 추가해주기
+
+## push Notification
+
+- 서버에서 설치된 앱에 메시지를 전달하고, 앱에서 전달된 메시지를 보여주는것
+- push : Message를 전달 하는 것
+- Notification : Message를 보여 주는 것
+
+- FCM의 동작 원리 (최초 생성)
+
+  - 앱이 설치된 뒤 FCM에서 기기 식별이 가능한 Token 발급
+  - 앱에서 필요 할때 조회할 수 있음
+  - 발급된 Token을 별도의 DB에 저장
+
+- FCM 동작 원리 (메시지 전달)
+
+  - 별도로 저장된 DB의 값을 읽어와 FCM으로 전송 요청
+  - FCM 내부 서버에서는 식별 가능한 기기로 FCM을 전송
+  - 전송한 뒤 응답으로 Token에 전달 했는지 여부를 알 수 있음
+
+- FCM 동작 원리 (기타)
+
+  - 푸시 성공률 99%. 100% 보장은 아님
+  - 방해금지 모드, sleep 모드로 빠질 경우 받지 못하기도 함
+  - 발급받은 Token의 재발급 조건
+    - 앱을 제거하고 재설치 하는 경우
+    - 앱의 데이터를 지우는 경우
+    - 새기기에서 앱이 복원되는 경우
+
+- onTokenRefresh 이벤트로 바뀐 Token값을 알 수 있음
+
+## APNS
+
+- Apple Push Notification Service
+- FCM과 전체적인 모습은 비슷 (Token 발급, 업데이트, 발송 등)
+- Token 발급 과정 중 발급받는 APNs Token이 없을수도 있음 (푸시 허용 x)
+- FCM을 통해 APNs로 접근이 가능
+- 사실상 FCM을 통해 iOS에도 푸시를 보낼수 있는 구조.
+- FCM만 잘 알면 양 플랫폼에 대한 푸시 발송 가능
+
+- FCM에 APNs 설정 하는 방법
+  - Apple Developer에서 발급 받은 인증서, 인증 키등을 FCM console에서 설정만 해주면 APNs이용 가능.
+
+## Jest Deep Dive
+
+1. Mocking
+
+- 가짜 데이터를 만들어 사용하는 것
+- ex. HTTP 요청시 특정 값을 Response로 지정.
+
+- without Mocking
+  - Mocking 없이 Test를 돌리게 된다면, 실제로 서버로 요청이 가게됨
+  - 인증이 필요 없는 API는 문제 없이 동작
+  - 인증이 필요 한 API는 요청 실패로 인한 failed
+  - 인증이 필요한 API와, 아닌 API를 구분하여 각각 상황에 맞게 호출
+  - 테스트를 위해 챙겨야 할 게 너무 많음
+  - Native Module은 Native API를 사용하게 되어있음
+  - Jest는 핸드폰이 아닌 Local PC 환경에서 실행 됨
+  - Native API (위치, 카메라 등)를 사용하는 경우에는 무조건 failed 처리
+  - 응답값을 별개로 선언하여 받기 때문에 인증여부와 상관없이 사용가능
+  - API 요청시, 성공 또는 실패시에 대한 응답값 정의 가능
+  - Native API 호출시에도 되돌려 받는 값을 정의 가능
+
+2. spyOn
+
+- 몰래 정보를 빼내오는 기능
+- 함수가 호출 될 때 어떤 값과 함께 호출되었는지 파악 가능
+
+## react-native-builder-bob
+
+- react-native용 패키지를 손쉽게 만들 수 있도록 만든 Tool
+- npm package를 만들기에는 많은 boilerplate발생
+- 자동으로 생성되는것이 많아 손쉽게 시작 가능
+- release-it등 패키지를 운영하면서 필요한것들이 모두 정의됨
+
+- 프로젝트 생성
+  - npx create-react-native-library@latest react-native-animation-container
+  - cd react-native-animation-container
+  - github에서 react-native-animation-container Repository생성 및 연결
+  - 패키지에 사용되는 3rd-party 라이브러리를 peerDependencies에 추가해준다

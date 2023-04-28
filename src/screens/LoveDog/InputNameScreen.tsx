@@ -102,6 +102,9 @@ const InputNameScreen = () => {
         options={['사진 촬영하여 선택', '갤러리에서 선택', '취소']}
         cancelButtonIndex={2}
         onPress={async (index) => {
+          if (index === 0) {
+            console.log('사진 촬영하여 선택');
+          }
           if (index === 1) {
             const photoResult = await ImageCropPicker.openPicker({
               width: 300,
