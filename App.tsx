@@ -31,10 +31,15 @@ import PanResponderBall from './src/screens/PanResponderBall';
 import PanResponderBannerSlider from './src/screens/PanResponderBannerSlider';
 import PanResponderFontSlider from './src/screens/PanResponderFontSlider';
 import LoveDog from './src/screens/LoveDog';
+import MovieReminder from './src/screens/MovieReminder';
 
 type Screens = Record<string, { screen: React.ComponentType; title?: string }>;
 
 const SCREENS: Screens = {
+  MovieReminder: {
+    screen: MovieReminder,
+    title: 'MovieReminder',
+  },
   LoveDog: {
     screen: LoveDog,
     title: 'LoveDog',

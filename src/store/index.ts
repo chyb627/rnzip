@@ -1,9 +1,12 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import { useDispatch } from 'react-redux';
+
 import photoSlice from '../slices/photo';
+import MovieSlice from '../slices/movie';
 
 const rootReducer = combineReducers({
   photo: photoSlice.reducer,
+  movie: MovieSlice.reducer,
 });
 
 export type RootState = ReturnType<typeof rootReducer>;
