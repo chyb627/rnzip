@@ -32,16 +32,18 @@ interface GetDiscoverMoviesResponse {
 interface GetDiscoverMoviesParams {
   releaseDateGte?: string;
   releaseDateLte?: string;
+  page?: number;
 }
 
 export const getDiscoverMovies = createAsyncThunk(
   'discover/movie',
-  async ({ releaseDateGte, releaseDateLte }: GetDiscoverMoviesParams) => {
+  async ({ releaseDateGte, releaseDateLte, page }: GetDiscoverMoviesParams) => {
     const response = await axios.get<GetDiscoverMoviesResponse>('discover/movie', {
       params: {
         ['release_date.gte']: releaseDateGte,
         ['release_date.lte']: releaseDateLte,
         region: 'KR',
+        page,
       },
     });
 
@@ -62,5 +64,30 @@ export const getDiscoverMovies = createAsyncThunk(
     };
 
     return newOjb;
+  },
+);
+
+export const getMoviesData = createAsyncThunk(
+  'discover/movies',
+  async ({ releaseDateGte, releaseDateLte, page }: GetDiscoverMoviesParams) => {
+    const response = await axios.get<GetDiscoverMoviesResponse>('discover/movie', {
+      params: {
+        ['release_date.gte']: releaseDateGte,
+        ['release_date.lte']: releaseDateLte,
+        region: 'KR',
+        page,
+      },
+    });
+
+    const movies: Movie[] = response.data.results.map<Movie>((v) => ({
+      id: v.id,
+      title: v.title,
+      originalTitle: v.original_title,
+      releaseData: v.release_date,
+      overview: v.overview,
+      posterUrl: v.poster_path != null ? `${IMG_BASE_URL}/${v.poster_path}` : null,
+    }));
+
+    return movies;
   },
 );

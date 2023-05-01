@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
 });
 
 const MoviesScreen = () => {
-  const { movies, isLoading } = useMovies();
+  const { movies, isLoading, loadMore } = useMovies();
 
   return (
     <SafeAreaView style={styles.container} edges={['top']}>
@@ -55,6 +55,8 @@ const MoviesScreen = () => {
           )}
           // eslint-disable-next-line react/no-unstable-nested-components
           ItemSeparatorComponent={() => <View style={styles.separator} />}
+          onEndReached={loadMore}
+          onEndReachedThreshold={0.1}
         />
       )}
     </SafeAreaView>
