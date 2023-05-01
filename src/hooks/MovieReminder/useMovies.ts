@@ -42,10 +42,22 @@ const useMovies = () => {
     }
   }, [dispatch, getDiscoverMoviesData, pageNumber]);
 
+  const refresh = useCallback(() => {
+    dispatch(resetMovieData());
+    const params = {
+      releaseDateGte: dayjs().format('YYYY-MM-DD'),
+      releaseDateLte: dayjs().add(1, 'year').format('YYYY-MM-DD'),
+      page: 1,
+    };
+    dispatch(getDiscoverMovies(params));
+    setPageNumber(1);
+  }, [dispatch, resetMovieData]);
+
   return {
     movies,
     isLoading,
     loadMore,
+    refresh,
   };
 };
 

@@ -1,6 +1,14 @@
 import React from 'react';
 import Colors from 'open-color';
-import { ActivityIndicator, FlatList, Platform, StatusBar, StyleSheet, View } from 'react-native';
+import {
+  ActivityIndicator,
+  FlatList,
+  Platform,
+  RefreshControl,
+  StatusBar,
+  StyleSheet,
+  View,
+} from 'react-native';
 
 import useMovies from '../../hooks/MovieReminder/useMovies';
 import MovieInfoCard from '../../components/MovieReminder/MovieInfoCard';
@@ -25,7 +33,8 @@ const styles = StyleSheet.create({
 });
 
 const MoviesScreen = () => {
-  const { movies, isLoading, loadMore } = useMovies();
+  const { movies, isLoading, loadMore, refresh } = useMovies();
+  console.log('@!$!@%$!@%!@%', movies.length);
 
   return (
     <SafeAreaView style={styles.container} edges={['top']}>
@@ -57,6 +66,9 @@ const MoviesScreen = () => {
           ItemSeparatorComponent={() => <View style={styles.separator} />}
           onEndReached={loadMore}
           onEndReachedThreshold={0.1}
+          refreshControl={
+            <RefreshControl tintColor={Colors.white} refreshing={isLoading} onRefresh={refresh} />
+          }
         />
       )}
     </SafeAreaView>
