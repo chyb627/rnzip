@@ -1,18 +1,10 @@
 import React from 'react';
 import Colors from 'open-color';
-import {
-  ActivityIndicator,
-  FlatList,
-  Platform,
-  RefreshControl,
-  StatusBar,
-  StyleSheet,
-  View,
-} from 'react-native';
+import { ActivityIndicator, FlatList, RefreshControl, StyleSheet, View } from 'react-native';
 
 import useMovies from '../../hooks/MovieReminder/useMovies';
 import MovieInfoCard from '../../components/MovieReminder/MovieInfoCard';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import Screen from '../../components/MovieReminder/Screen';
 
 const styles = StyleSheet.create({
   container: {
@@ -34,16 +26,9 @@ const styles = StyleSheet.create({
 
 const MoviesScreen = () => {
   const { movies, isLoading, loadMore, refresh } = useMovies();
-  console.log('@!$!@%$!@%!@%', movies.length);
 
   return (
-    <SafeAreaView style={styles.container} edges={['top']}>
-      {Platform.OS === 'ios' ? (
-        <StatusBar barStyle="light-content" />
-      ) : (
-        <StatusBar barStyle="dark-content" />
-      )}
-
+    <Screen headerVisible={false}>
       {isLoading ? (
         <View style={styles.loadingContainer}>
           <ActivityIndicator />
@@ -55,6 +40,7 @@ const MoviesScreen = () => {
           data={movies}
           renderItem={({ item: movie }) => (
             <MovieInfoCard
+              id={movie.id}
               title={movie.title}
               originalTitle={movie.originalTitle}
               releaseDate={movie.releaseData}
@@ -71,7 +57,7 @@ const MoviesScreen = () => {
           }
         />
       )}
-    </SafeAreaView>
+    </Screen>
   );
 };
 

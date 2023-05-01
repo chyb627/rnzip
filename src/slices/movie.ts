@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { getDiscoverMovies, getMoviesData } from '../actions/movie';
+import { getDiscoverMovies, getMoviesData, getMovieDetails } from '../actions/movie';
 import { Movie } from '../types/movieReminderType';
 
 export interface InitialState {
@@ -16,6 +16,43 @@ export interface InitialState {
   getMoviesDataDone: boolean;
   getMoviesDataError: Error | string | null | undefined;
   getMoviesResultData: Movie[];
+  getMovieDetailsLoading: boolean;
+  getMovieDetailsDone: boolean;
+  getMovieDetailsError: Error | string | null | undefined;
+  getMovieDetailsData: {
+    id: number;
+    genres: {
+      id: number;
+      name: string;
+    };
+    title: string;
+    originalTitle: string;
+    overview: string | null;
+    posterUrl: string | null;
+    releaseDate: string;
+    runtime: string | null;
+    casts: {
+      id: number;
+      knownForDepartment: string;
+      name: string;
+      profileUrl: string | null;
+      character: string;
+    }[];
+    crews: {
+      id: number;
+      knownForDepartment: string;
+      name: string;
+      profileUrl: string | null;
+      job: string;
+    }[];
+    videos: {
+      name: string;
+      key: string;
+      site: string;
+      type: string;
+      id: string;
+    }[];
+  } | null;
 }
 
 export const initialState: InitialState = {
@@ -27,6 +64,10 @@ export const initialState: InitialState = {
   getMoviesDataDone: false,
   getMoviesDataError: null,
   getMoviesResultData: [],
+  getMovieDetailsLoading: false,
+  getMovieDetailsDone: false,
+  getMovieDetailsError: null,
+  getMovieDetailsData: null,
 };
 
 const MovieSlice = createSlice({
@@ -72,6 +113,21 @@ const MovieSlice = createSlice({
       .addCase(getMoviesData.rejected, (state, action) => {
         state.getMoviesDataLoading = false;
         state.getMoviesDataError = action.error.message;
+      })
+      // getMovieDetails
+      .addCase(getMovieDetails.pending, (state) => {
+        state.getMovieDetailsLoading = true;
+        state.getMovieDetailsDone = false;
+        state.getMovieDetailsError = null;
+      })
+      .addCase(getMovieDetails.fulfilled, (state, action) => {
+        state.getMovieDetailsLoading = false;
+        state.getMovieDetailsDone = true;
+        state.getMovieDetailsData = action.payload;
+      })
+      .addCase(getMovieDetails.rejected, (state, action) => {
+        state.getMovieDetailsLoading = false;
+        state.getMovieDetailsError = action.error.message;
       }),
 });
 

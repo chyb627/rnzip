@@ -1,6 +1,10 @@
-import React from 'react';
-import { Image, StyleSheet, Text, View } from 'react-native';
+import React, { useCallback } from 'react';
+import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import Colors from 'open-color';
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+
+import { RootStackParamList } from '../../types/movieReminderType';
 
 const styles = StyleSheet.create({
   container: {
@@ -46,6 +50,7 @@ const styles = StyleSheet.create({
 });
 
 interface MovieInfoCardProps {
+  id: number;
   title: string;
   originalTitle: string;
   releaseDate: string;
@@ -54,14 +59,23 @@ interface MovieInfoCardProps {
 }
 
 const MovieInfoCard = ({
+  id,
   title,
   originalTitle,
   releaseDate,
   overview,
   posterUrl,
 }: MovieInfoCardProps) => {
+  const { navigate } = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+
+  const onPress = useCallback(() => {
+    navigate('Movie', {
+      id,
+    });
+  }, [id, navigate]);
+
   return (
-    <View style={styles.container}>
+    <TouchableOpacity style={styles.container} onPress={onPress}>
       <View style={styles.poster}>
         {posterUrl != null && <Image style={styles.posterImage} source={{ uri: posterUrl }} />}
       </View>
@@ -75,7 +89,7 @@ const MovieInfoCard = ({
 
         <Text style={styles.overviewText}>{overview}</Text>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 
